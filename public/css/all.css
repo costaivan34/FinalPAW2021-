@@ -1,0 +1,106 @@
+* {
+    
+    /*font-family: 'Lobster', cursive; -> TITULO*/
+    /*font-family: 'Roboto Slab', serif; -> SERIF*/
+    /*font-family: 'Roboto Condensed', sans-serif; -> SANS-SERIF*/
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+main{
+    background: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.6)), url("/public/res/background/fondo3.jpg");
+    background-attachment: fixed;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+body.menuOpen{
+    overflow: hidden;
+}
+
+main {
+    margin: 45px 0 0;
+}
+
+main .container{
+    padding: 10px 0 10px;
+    text-align: left;
+}
+
+.no-pointer{
+    cursor: default !important;
+}
+
+/*sm*/
+@media screen and (min-width: 576px) {
+    main{
+        margin-top: 0;
+    }
+}
+
+/*md*/
+@media screen and (min-width: 768px) {
+
+    main .container{
+        margin: 0 5%;
+        height: 100%;
+    }
+}
+
+/*lg and xl*/
+@media screen and (min-width: 992px) {
+    main .container{
+        height: 100%;
+    }
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+/* Style the tab content */
+.tabcontent .act {
+    display: grid;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+
+  .mapa iframe{width:100%;}
+.iframe{border:0;}

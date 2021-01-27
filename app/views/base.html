@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %} - La Guia Gourmet</title>
+        
+        <style>
+@import url('https://fonts.googleapis.com/css2?family=Hanalei+Fill&display=swap');
+</style>
+    <link rel="stylesheet" href="/public/css/reset.css">
+    <link rel="stylesheet" href="/public/css/partials.css">
+    <link rel="stylesheet" href="/public/css/carrusel.css">
+
+    <link rel="icon" type="image/png" href="/public/res/favicon.ico" />
+    <script src="/public/script/carusel.js"></script>
+    <script src="/public/script/modal.js"></script>
+    <script src="/public/script/loginmodal.js"></script>
+    <script src="https://use.fontawesome.com/6e6effd682.js"></script>
+    {% endblock %}
+</head>
+<body>
+    <header>{% block header %}{% endblock %}</header>
+    <nav>{% block nav %}
+        {{ include('partials/nav.html') }}
+        {% endblock %}</nav>
+    <main>{% block main %}{% endblock %}</main>
+    {% block footer %}
+{{ include('partials/footer.html') }}
+{% endblock %}
+
+</body>
+</html>

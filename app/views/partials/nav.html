@@ -1,0 +1,48 @@
+{% block nav %}
+
+    <ul class="topnav">
+        <li> <a class="nav-logo" href="#">
+            <img src="/public/res/logo-full.png" >
+          </a>
+        </li>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/about">Restaurant</a></li>
+        <li><a href="/contact">Contacto</a></li>
+        <li><a href="/about">Cerca de mi</a></li>
+     
+        <li><i class="fa fa-user-circle-o fa-2x loginico" aria-hidden="true" alt="" onclick="openLoginModal();"></i>
+             </li>
+
+    </ul>
+
+
+    <!-- The Modal for login -->
+<div id="id01" class="modal" >
+
+    <!-- Modal Content for login-->
+    <form class="modal-content animate" action="/action_page.php">  
+      <div class="imgcontainer">
+        <img src="/public/res/avatar-2.png" alt="Avatar" class="avatar">
+        <h3>ACCEDE A TU CUENTA</h3>
+        <span onclick="closeLoginModal()" class="close" title="Close Modal">&times;</span>
+      </div>
+      
+      <div class="container">
+        
+        <input class="caja-login" type="text" placeholder="&#xf0e0;Usuario" name="uname" required>
+       
+        <input class="caja-login" type="password" placeholder="&#xf084;Contraseña" name="psw" required>
+        <label>
+           
+            <input type="checkbox" checked="checked" name="remember">Recordar mi usuario
+          </label>
+        <button type="submit">Login</button>
+  
+        <span class="psw"><a href="#">¿Has olvidado tu contraseña?</a></span>
+        
+      </div>
+  
+   
+    </form>
+  </div>
+{% endblock %}
