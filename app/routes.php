@@ -10,9 +10,10 @@
     $router->get('restaurantes', 'RestaurantController@administracionRestaurantes');
   
     $router->get('resto', 'SitioController@getOne');
+    $router->get('resto/new', 'PagesController@newOne');
     $router->get('platos', 'PagesController@platoSingle');
 
-    $router->get('busqueda', 'PagesController@busqueda');
+    $router->get('cerca', 'PagesController@cerca');
     $router->get('buscar', 'PagesController@buscar');
 
     $router->get('not_found', 'ProjectController@notFound');

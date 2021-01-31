@@ -32,7 +32,7 @@ class Sitio extends Model{
         
         $basic = $this->db->selectSitio($idSitio);
         $basicSitio = json_decode(json_encode($basic), True);
-    
+        
         /*$datos["sitio"] = $this->db->selectPlatos($basicSitio['idSitio']);
         $datos["ubicacion"] = $this->db->selectUbicacion($basicSitio['idUbicacion']);
         $datos["horarios"]  = $this->db->selectHorarios($basicSitio['idlistaHorario']);
@@ -40,9 +40,32 @@ class Sitio extends Model{
         $datos["caracteristicas"]  = $this->db->selectListaCaractSitio($basicSitio['idListaCarac']);
         $datos["comentarios"]  = $this->db->selectListaComentSitio($basicSitio['idListaComent']);
         */       
-        
-        return $basicSitio;
+        return $basic;
     }
 
+    public function getUbicacion($idSitio){
+        $ubicacion = $this->db->selectUbicacion($idSitio);
+        //$basicUbicacion = json_decode(json_encode($basic), True);
+        return $ubicacion;
+    }
+
+    public function getHorario($idSitio){
+        $horario = $this->db->selectHorarios($idSitio);
+        $s="";
+        for($i = 0, $size = count($horario); $i < $size; ++$i) {
+            $s= $s + $horario[$i];
+        }
+        //$basicUbicacion = json_decode(json_encode($basic), True);
+        return $s;
+    }
+    public function getImagenesSitio($idSitio){
+        $Imagenes = $this->db->selectImagenesSitio($idSitio);
+        //$basicUbicacion = json_decode(json_encode($basic), True);
+        return $Imagenes;
+    }
+
+
+    
+    
 }
 

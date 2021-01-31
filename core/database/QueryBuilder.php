@@ -123,12 +123,10 @@ public function selectAllSitios(){
 public function selectSitio($idSitio){
     /*
     $statement = $this->pdo->prepare("SELECT idsitio, nombre, descripcion, telefono, sitioweb, valoracionPrecio,
-     valoracionAmbiente, valoracionServicio,idlistaHorario,idListaPago, idUbicacion, idListaCarac, 
-     idListaComent FROM sitio WHERE idSitio= $idSitio");
+     valoracionAmbiente, valoracionServicio FROM sitio WHERE idSitio= $idSitio");
 
     */
-    $statement = $this->pdo->prepare("SELECT idsitio, nombre, descripcion FROM sitios
-                                             WHERE idSitio= $idSitio ");
+    $statement = $this->pdo->prepare("SELECT * FROM sitios WHERE idSitio= $idSitio");
      $statement->execute();
      
     return $statement->fetchAll(PDO::FETCH_CLASS);
@@ -141,18 +139,15 @@ public function selectPlatos($idSitio){
 }
 
 
-public function selectUbicacion($idUbicacion){
+public function selectUbicacion($idSitio){
     $statement = $this->pdo->prepare("SELECT idUbicacion, direccion, ciudad, provincia, x, y FROM ubicacion
-     WHERE idUbicacion = $idUbicacion");
+     WHERE idSitio = $idSitio");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
  
-public function selectHorarios($idListaHorario){
-    $statement = $this->pdo->prepare("SELECT hh.idHorario, hh.dia,hh.horaInicio,hh.horaFin
-         FROM listahorario lh 
-         INNER JOIN horario hh  ON  lh.idHorario=hh.idHorario
-         WHERE lh.idListaH = $idListaHorario");
+public function selectHorarios($idSitio){
+    $statement = $this->pdo->prepare("SELECT h.idDia, h.HDesde, h.HHasta, sd.nombre FROM horario h INNER JOIN semanasdias sd ON h.idDia=sd.idDia  WHERE idSitio = $idSitio");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
@@ -187,8 +182,8 @@ public function selectListaComentSitio($idListaComent){
 
 
 public function selectImagenesSitio($idSitio){ 
-    $statement = $this->pdo->prepare("SELECT cs.idImagen,cs.nombre, cs.descripcion,  cs.datos
-     FROM  imagenessitio imgs WHERE imgs.idSitio = $$idSitio");
+    $statement = $this->pdo->prepare("SELECT cs.idImagen, cs.path
+     FROM  imagenessitios cs WHERE cs.idSitio = $idSitio");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }

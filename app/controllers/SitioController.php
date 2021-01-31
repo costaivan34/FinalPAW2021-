@@ -21,10 +21,18 @@ class SitioController extends Controller{
    
 
     public function getOne(){
-        $infoBasica = $this->model->getOne($_GET['idSitio']);
+        $infoBasica = $this->model->getOne($_GET['Sitio']);
+        $infoUbicacion = $this->model->getUbicacion($_GET['Sitio']);
+        $infoHorario = $this->model->getHorario($_GET['Sitio']);
+        $infoImagenes = $this->model->getImagenesSitio($_GET['Sitio']);
         $datos['OneSitio'] = $infoBasica;
+        $datos['Ubicacion'] = $infoUbicacion;
+        $datos['Horario'] = $infoHorario;
+        $datos['Imagenes'] = $infoImagenes;
+        var_dump($infoHorario);
         $datos['imagen'] = "public/res/banner2.jpg";
         return view('/sitios/OneSitio',compact('datos'));
+        
 
     }
 

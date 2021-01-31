@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block header %}
+    {{ include('partials/nav.html') }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    <meta name="keywords" content="PAW,2018,Templates,PHP">
+    <link rel="stylesheet" href="/public/css/search-bar.css">
+    <link rel="stylesheet" href="/public/css/search.css">
+    <link rel="stylesheet" href="/public/css/resultados.css">
+{% endblock %}
+
+{% block main %}
+<article>
+<section id="search">
+  {{ include('partials/search-bar.html') }}
+</section>
+<section id="resultados">
+  <div class="slideshow-places">
+    <h3> Resultados de la busqueda</h3>
+    <div class="fila">
+      <div class="columna">
+        <div class="tarjeta">
+          <div>
+            <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
+          </div>
+          <div class="plates-text" >
+            <a href="/resto?idSitio=1"><h3>Card 2</h3></a>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+      </div>
+      <div class="columna">
+        <div class="tarjeta">
+          <div>
+            <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
+          </div>
+          <div class="plates-text">
+            <a href="https://example.com"><h3>Card 2</h3></a>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+      </div>
+      <div class="columna">
+        <div class="tarjeta">
+          <div>
+            <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
+          </div>
+          <div class="plates-text">
+            <a href="https://example.com"><h3>Card 2</h3></a>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+      </div>
+      <div class="columna">
+        <div class="tarjeta">
+          <div>
+            <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
+          </div>
+          <div class="plates-text">
+            <a href="https://example.com"><h3>Card 2</h3></a>
+            <p>Some text</p>
+            <p>Some text</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+</section>
+</article>
+
+{% endblock %}
+

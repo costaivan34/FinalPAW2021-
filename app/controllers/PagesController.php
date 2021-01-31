@@ -55,22 +55,21 @@ class PagesController
     }
 
     public function buscar(){
-        return view('/busqueda/busquedaResto');
+        return view('/sitios/SearchSitio');
     }
 
-    public function busqueda()
-    {
-        $tipoBusqueda = $_GET['Tipo'];
-        $palabraBusqueda = $_GET['BuscarPalabra'];
-        $zona = $_GET['Zona'];
-        if ($tipoBusqueda == 'Sitio') {
-            //funcion busqueda por sitio
-            return view('/busqueda/busquedaResto');
-        } else {
-            //funcion busqueda por plato
-            return view('/busqueda/busquedaPlato');
-        }
+    public function newOne(){
+            //funcion busqueda 
+            return view('/sitios/NewSitio');
+      
     }
+
+    
+    public function cerca(){
+        //funcion busqueda 
+        return view('/sitios/NearSitios');
+  
+}
     public function login()
     {
         return view('/login/login');

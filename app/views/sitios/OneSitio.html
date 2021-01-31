@@ -19,18 +19,12 @@
     
     <div class="slideshow-container">
       <!-- Full-width images with number and caption text -->
-      <div class="diapositiva fade">
+      {% for N in datos.Imagenes %}
+      <div class="mySlides fade">
         <div class="numbertext"></div>
-        <img src="public/res/place.jpg" >
+        <img src="{{ datos.Imagenes[ loop.index-1 ].path }}" >
       </div>
-      <div class="diapositiva fade">
-        <div class="numbertext"></div>
-        <img src="public/res/home-banner-1.jpg" >
-      </div>
-      <div class="diapositiva fade">
-        <div class="numbertext"></div>
-        <img src="public/res/home-banner-1.jpg">
-      </div>
+    {% endfor %}
       <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
       <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
@@ -42,11 +36,11 @@
   <div class="info">
     <!-- Tab links -->
     <div class="tab">
-      <button class="tablinks active" onclick="openTab(event, 'Descripcion')"> <i class="fa fa-home">Descripcion</i></button>
-      <button class="tablinks " onclick="openTab(event, 'Ubicacion')"><i class="fa fa-map-marker">Localizacion</i></button>
-      <button class="tablinks" onclick="openTab(event, 'Platos')"><i class="fa fa-cutlery">Platos</i></button>
-      <button class="tablinks" onclick="openTab(event, 'Equipo')"><i class="fa fa-users">Conoce al Equipo</i></button>
-      <button class="tablinks" onclick="openTab(event, 'Valoracion')"><i class="fa fa-star">Valoracion y Opiniones</i></button>
+      <button class="tablinks active" onclick="openTab(event, 'Descripcion')"> <i class="tab-title fa fa-home">Descripcion</i></button>
+      <button class="tablinks " onclick="openTab(event, 'Ubicacion')"><i class="tab-title fa fa-map-marker">Localizacion</i></button>
+      <button class="tablinks" onclick="openTab(event, 'Platos')"><i class="tab-title fa fa-cutlery">Platos</i></button>
+      <button class="tablinks" onclick="openTab(event, 'Equipo')"><i class="tab-title fa fa-users ">Conoce al Equipo</i></button>
+      <button class="tablinks" onclick="openTab(event, 'Valoracion')"><i class=" tab-title fa fa-star-o ">Opiniones</i></button>
     </div>
     
     <!-- Tab content Descripcion-->
@@ -54,32 +48,24 @@
             <article class=" infoBasica">
                   <section >
                       <h3>Descripcion</h3><hr class="separador">
-                      <p>{{ datos.OneSitio[0].descripcion }}El Restaurante Gastro-taberna
-                        Bisbe, está en Valencia en la Plaza del Arzobispo, 6 una de las zonas
-                        más bonitas y emblemáticas en el casco viejo de la ciudad. El Restaurante
-                        propiedad de Juan Carlos, responsable del conocido restaurante Abadía D’Espí. 
-                        La Gastro-taberna Bisbe, dirigida con maestría es una buena opción para salir a comer
-                        o cenar, tanto en pareja como con amigos y probar una cocina de calidad. En Bisbe, 
-                        uno queda más que satisfecho con el buen hacer de los profesionales que están al
-                        cargo de los fogones,podemos encontrar las Puntitas (los extremos del pan) rellenas
-                        siempre de algo con lo que continuamente nos están sorprendiendo, sus bravas, pescaito
-                        planchao… gin-tonics… todo realizado con acierto, con una estupenda relación calidad
-                        precio, disponen de una amplia bodega para siempre acompañar los platos con el caldo
-                        adecuado. Aunque en Bisbe, cualquier cosa que se pida es acierto seguro, si no sabes
-                        que pedir déjate aconsejar por su personal, siempre miman y cuidan mucho a los clientes,
-                        es una muy buena opción para comer en Valencia.</p>
+                      <p>{{ datos.OneSitio[0].descripcion}}</p>
                   </section>              
                   <section >
                     <h3>Contacto</h3><hr class="separador">              
                       <dl class="detalles">
                         <dt>Direccion</dt>
-                        <dd>calle falsa 123</dd>
+                        <dd>{{ datos.Ubicacion[0].direccion }}</dd>
                         <dt>Ubicacion</dt>
-                        <dd>calle falsa 123{{ datos.infoBasica.ubicacion }}</dd>
+                        
+                        <dd>{{ datos.Ubicacion[0].ciudad }} {{ datos.Ubicacion[0].provincia }} </dd>
                         <dt>Horario</dt>
-                        <dd>calle falsa 123{{ datos.infoBasica.horario }}</dd>
+
+                        <dd>{{datos.Horario.s}}</dd>
+                       
+                        <dt>Mail</dt>
+                        <dd>{{ datos.OneSitio[0].sitioWeb }}</dd>
                         <dt>Telefono</dt>
-                        <dd class="ultimo">calle falsa 123{{ datos.infoBasica.telefono }}</dd>
+                        <dd class="ultimo">{{ datos.OneSitio[0].telefono }}</dd>
                       </dl>
                   </section>              
             </article>
@@ -89,8 +75,7 @@
     <div id="Ubicacion" class="tabcontent noactive">
     
       <div class="mapa">
-          <iframe class="iframe"  src="https://www.openstreetmap.org/export/embed.html?bbox=-59.319992065429695%2C-35.02085912032271%2C-59.25424575805664%2C-34.98078374541327;marker=-35.000823886348606%2C-59.287118911743164"></iframe>
-          
+        <iframe class="iframe"src="https://www.openstreetmap.org/export/embed.html?bbox=-59.319992065429695%2C-35.02085912032271%2C-59.25424575805664%2C-34.98078374541327"></iframe>
       </div>
     </div>
     <!-- Tab content Platos-->
@@ -169,44 +154,46 @@
     <div id="Valoracion" class="tabcontent noactive">
       <h3>Valoracion </h3><hr class="separador">
      
-<div class="row">
-  <div>
-  <div class="side">
-    <div>Precio</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-5"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>150</div>
-  </div>
-</div>
-  <div class="side">
-    <div>Sabor</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-4"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>63</div>
-  </div>
-  <div class="side">
-    <div>Ambiente</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-3"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>15</div>
-  </div>
-  
-</div>
+     
+      <ul class="valoracion2">
+          
+        <li> 
+          <h4>Precio</h4>{{ datos.OneSitio[0].valoracionPrecio }}
+          <p class="clasificacion">
+            {% for i in 1..5 %}
+              
+            {% endfor %}
+            <span class="fa fa-star fa-2x"></span>
+            <span class="fa fa-star fa-2x"></span>
+            <span class="fa fa-star fa-2x checked"></span>
+            <span class="fa fa-star fa-2x checked"></span>
+            <span class="fa fa-star fa-2x checked"></span>
+          </p>
+        </li>
+        <li>
+        <h4>Sabor</h4>
+        <p class="clasificacion">
+          <span class="fa fa-star fa-2x"></span>
+          <span class="fa fa-star fa-2x"></span>
+          <span class="fa fa-star fa-2x checked"></span>
+          <span class="fa fa-star fa-2x checked"></span>
+          <span class="fa fa-star fa-2x checked"></span>
+    
+        </p>
+        </li>
+        <li>
+        <h4>Ambiente</h4>
+        <p class="clasificacion">
+          <span class="fa fa-star fa-2x"></span>
+          <span class="fa fa-star fa-2x"></span>
+          <span class="fa fa-star fa-2x checked"></span>
+          <span class="fa fa-star fa-2x checked"></span>
+          <span class="fa fa-star fa-2x checked"></span>
+
+        </p>
+        </li>
+      </ul>
+      
 
         <h3>Comentarios </h3><hr class="separador">
         <ul class="lista-coment">
@@ -247,118 +234,7 @@
                  a escribir no cabe en la caja, éste se desplazará pero sin que la caja
                  varíe su tamaño. El texto irá desapareciendo por la izquierda.</p>
           </li>
-          <li class="comentario">
-            <img class="coment-img" src="/public/res/team2.jpg" alt="Denim Jeans" >
-            <h4 class="coment-nombre">John Doe</h4>
-            <ul class="valoracion">
-              <li> <h2>Precio</h2>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-              </li>
-              <li>
-              <h2>Sabor</h2>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-              </li>
-              <li>
-              <h2>Ambiente</h2>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-              </li>
-            </ul>
-            <p class="coment-text">mediante el atributo size podemos definir el tamaño
-               de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-               a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-               varíe su tamaño. El texto irá desapareciendo por la izquierda.
-               mediante el atributo size podemos definir el tamaño
-               de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-               a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-               varíe su tamaño. El texto irá desapareciendo por la izquierda.</p>
-          </li>
-          <li class="comentario">
-          <img class="coment-img" src="/public/res/team2.jpg" alt="Denim Jeans" >
-          <h4 class="coment-nombre">John Doe</h4>
-          <ul class="valoracion">
-            <li> 
-              <h2>Precio</h2>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-            </li>
-            <li>
-              <h2>Sabor</h2>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-            </li>
-            <li>
-              <h2>Ambiente</h2>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-            </li>
-          </ul>
-          <p class="coment-text">mediante el atributo size podemos definir el tamaño
-             de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-             a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-             varíe su tamaño. El texto irá desapareciendo por la izquierda.
-             mediante el atributo size podemos definir el tamaño
-             de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-             a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-             varíe su tamaño. El texto irá desapareciendo por la izquierda.</p>
-          </li>
-          <li class="comentario">
-        <img class="coment-img" src="/public/res/team2.jpg" alt="Denim Jeans" >
-        <h4 class="coment-nombre">John Doe</h4>
-        <ul class="valoracion">
-          <li> <h2>Precio</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-          </li>
-          <li>
-          <h2>Sabor</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-          </li>
-          <li>
-          <h2>Ambiente</h2>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-          </li>
-        </ul>
-        <p class="coment-text">mediante el atributo size podemos definir el tamaño
-           de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-           a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-           varíe su tamaño. El texto irá desapareciendo por la izquierda.
-           mediante el atributo size podemos definir el tamaño
-           de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-           a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-           varíe su tamaño. El texto irá desapareciendo por la izquierda.</p>
-          </li>
+         
         </ul>
       <form method="post" action="sendcomment.php" class="deja-comentario">
         <h3>¡Deja un comentario!</h3>
@@ -367,48 +243,48 @@
         <textarea name="COMMENT" rows="10" cols="50" wrap="soft" placeholder="Máximo 1000 carácteres" maxlength="1000" required></textarea>
         <ul class="valoracion2">
           
-          <li> <h2>Precio</h2>
+          <li> <h4>Precio</h4>
             <p class="clasificacion">
-              <input id="radio1" type="radio" name="estrellas" value="5"><!--
-              --><label for="radio1">★</label><!--
-              --><input id="radio2" type="radio" name="estrellas" value="4"><!--
-              --><label for="radio2">★</label><!--
-              --><input id="radio3" type="radio" name="estrellas" value="3"><!--
-              --><label for="radio3">★</label><!--
-              --><input id="radio4" type="radio" name="estrellas" value="2"><!--
-              --><label for="radio4">★</label><!--
-              --><input id="radio5" type="radio" name="estrellas" value="1"><!--
-              --><label for="radio5">★</label>
+              <input id="radio1" type="radio" name="estrellas" value="5">
+              <label  class="fa fa-star" for="radio2"> </label>
+              <input id="radio2" type="radio" name="estrellas" value="4">
+              <label  class="fa fa-star" for="radio2"> </label>
+              <input id="radio3" type="radio" name="estrellas" value="3">
+              <label class="fa fa-star" for="radio3"> </label>
+              <input id="radio4" type="radio" name="estrellas" value="2">
+              <label class="fa fa-star " for="radio4"> </label>
+              <input id="radio5" type="radio" name="estrellas" value="1">
+              <label class="fa fa-star " for="radio5"> </label>
             </p>
           </li>
           <li>
-          <h2>Sabor</h2>
+          <h4>Sabor</h4>
           <p class="clasificacion">
-            <input id="radio1" type="radio" name="estrellas" value="5"><!--
-            --><label for="radio1">★</label><!--
-            --><input id="radio2" type="radio" name="estrellas" value="4"><!--
-            --><label for="radio2">★</label><!--
-            --><input id="radio3" type="radio" name="estrellas" value="3"><!--
-            --><label for="radio3">★</label><!--
-            --><input id="radio4" type="radio" name="estrellas" value="2"><!--
-            --><label for="radio4">★</label><!--
-            --><input id="radio5" type="radio" name="estrellas" value="1"><!--
-            --><label for="radio5">★</label>
+            <input id="radio1" type="radio" name="estrellas" value="5">
+            <label class="fa fa-star" for="radio1"> </label>
+            <input id="radio2" type="radio" name="estrellas" value="4">
+            <label  class="fa fa-star" for="radio2"> </label>
+            <input id="radio3" type="radio" name="estrellas" value="3">
+            <label class="fa fa-star" for="radio3"> </label>
+            <input id="radio4" type="radio" name="estrellas" value="2">
+            <label class="fa fa-star " for="radio4"> </label>
+            <input id="radio5" type="radio" name="estrellas" value="1">
+            <label class="fa fa-star " for="radio5"> </label>
           </p>
           </li>
           <li>
-          <h2>Ambiente</h2>
+          <h4>Ambiente</h4>
           <p class="clasificacion">
-            <input id="radio1" type="radio" name="estrellas" value="5"><!--
-            --><label for="radio1">★</label><!--
-            --><input id="radio2" type="radio" name="estrellas" value="4"><!--
-            --><label for="radio2">★</label><!--
-            --><input id="radio3" type="radio" name="estrellas" value="3"><!--
-            --><label for="radio3">★</label><!--
-            --><input id="radio4" type="radio" name="estrellas" value="2"><!--
-            --><label for="radio4">★</label><!--
-            --><input id="radio5" type="radio" name="estrellas" value="1"><!--
-            --><label for="radio5">★</label>
+            <input id="radio1" type="radio" name="estrellas" value="5">
+            <label class="fa fa-star" for="radio1"> </label>
+            <input id="radio2" type="radio" name="estrellas" value="4">
+            <label  class="fa fa-star" for="radio2"> </label>
+            <input id="radio3" type="radio" name="estrellas" value="3">
+            <label class="fa fa-star" for="radio3"> </label>
+            <input id="radio4" type="radio" name="estrellas" value="2">
+            <label class="fa fa-star " for="radio4"> </label>
+            <input id="radio5" type="radio" name="estrellas" value="1">
+            <label class="fa fa-star " for="radio5"> </label>
           </p>
           </li>
         </ul>
@@ -488,13 +364,4 @@
     </div>
 </div>
 
-<!-- The Modal for plato  -->
-
-<!--lacteox -->
-<!--tacc x-->
-<!--picantex -->
-<!--veganox -->
-<!--azucarx -->
-<!--sodiox -->
-<!--The Modal for plato -->
 {% endblock %}

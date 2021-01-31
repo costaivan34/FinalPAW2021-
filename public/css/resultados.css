@@ -1,0 +1,48 @@
+/* Float four columns side by side */
+.columna {
+  float: left;
+  width: 22%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.fila {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.fila:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.tarjeta {
+ 
+  margin-right: 4%;
+  
+  box-shadow: 0 4px 8px 0 rgba(245, 146, 135, 0.8); /* this adds the "card" effect */
+  padding: 20px;
+  text-align: center;
+  background-color: #f1f1f1 ;
+}
+.tarjeta img{
+  width:100%
+}
+
+
+.slideshow-places{
+   
+  padding-top: 2%;
+  padding-bottom: 2%;
+  padding-left: 8%;
+  padding-right: 5%;
+  margin-left: 2.50%;
+  margin-top: 5%;
+  border: 2px solid #E7CF7F;
+  height: 80%;
+  width: 81%;
+  }
+  
+  .slideshow-places h3{
+      text-align: center;
+  }

@@ -16,6 +16,7 @@
   font-size: 25px;
 }
 
+
 .nombre-block {
   width: 90%;
   position: absolute;
@@ -32,6 +33,11 @@
   box-shadow:   7px 0px 7px 0px #F59287;
 }
 
+
+.tab-title{
+  color:black;
+  font-size: 17px;
+}
 
 /* Estilo de la pestaña */
 .tab {
@@ -51,7 +57,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 14px 36px;
+  padding: 20px 40px;
   transition: 0.3s;
 }
 
@@ -163,7 +169,7 @@ dl.detalles dd {
   text-align: left;
   border: 1px solid #E7CF7F;
   background-color: #F5F2E9 ;
-  margin-top: 50.50%;    
+  margin-top: 50.80%;    
 }
 
 .adicional ul{
@@ -179,8 +185,8 @@ dl.detalles dd {
 
 
 .adicional h4{
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding: 20px 40px;
+  
   text-align: center;
   background-color: #E7CF7F ;
 }
@@ -286,3 +292,4 @@ dl.detalles dd {
   margin: 15px;
   margin-top: 0;
 }
+
