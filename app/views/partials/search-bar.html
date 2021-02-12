@@ -1,37 +1,15 @@
 
-<form class="barra-busqueda" action="/action_page.php">  
+<form class="barra-busqueda" action="/cerca" method="POST">  
   <h3>Encuentra al mejor restaurante para ti</h3>
-      <input class="palabraClave"type="text" placeholder="Palabra Clave" name="clave" required>
+      <input class="palabraClave"type="text" placeholder="Palabra Clave" name="clave" required >
       
-        <select  class="selectClave">
+        <select name="categorias" id="categorias" class="selectClave" >
           <option value="0">Selecionar Categoria:</option>
-          <option value="1">Audi</option>
-          <option value="2">BMW</option>
-          <option value="3">Citroen</option>
-          <option value="4">Ford</option>
-          <option value="5">Honda</option>
-          <option value="6">Jaguar</option>
-          <option value="7">Land Rover</option>
-          <option value="8">Mercedes</option>
-          <option value="9">Mini</option>
-          <option value="10">Nissan</option>
-          <option value="11">Toyota</option>
-          <option value="12">Volvo</option>
+          
         </select>
-        <select class="selectClave">
+        <select name="provincias" id="provincias" class="selectClave">
           <option value="0">Selecionar Ubicación:</option>
-          <option value="1">Audi</option>
-          <option value="2">BMW</option>
-          <option value="3">Citroen</option>
-          <option value="4">Ford</option>
-          <option value="5">Honda</option>
-          <option value="6">Jaguar</option>
-          <option value="7">Land Rover</option>
-          <option value="8">Mercedes</option>
-          <option value="9">Mini</option>
-          <option value="10">Nissan</option>
-          <option value="11">Toyota</option>
-          <option value="12">Volvo</option>
+          
         </select>
 
       <button type="submit">BUSCAR</button>

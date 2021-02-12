@@ -5,8 +5,7 @@ namespace App\Core\Database;
 use PDO;
 use Exception;
 
-class QueryBuilder
-{
+class QueryBuilder{
     /**
      * The PDO instance.
      *
@@ -19,8 +18,7 @@ class QueryBuilder
      *
      * @param PDO $pdo
      */
-    public function __construct($pdo, $logger = null)
-    {
+    public function __construct($pdo, $logger = null){
         $this->pdo = $pdo;
         $this->logger = ($logger) ? $logger : null;
     }
@@ -44,8 +42,7 @@ class QueryBuilder
      * @param  string $table
      * @param  array  $parameters
      */
-    public function insert($table, $parameters)
-    {
+    public function insert($table, $parameters){
         $parameters = $this->cleanParameterName($parameters);
         $sql = sprintf(
             'insert into %s (%s) values (%s)',
@@ -62,8 +59,7 @@ class QueryBuilder
         }
     }
 
-    private function sendToLog(Exception $e)
-    {
+    private function sendToLog(Exception $e){
         if ($this->logger) {
             $this->logger->error('Error', ["Error" => $e]);
         }
@@ -75,8 +71,7 @@ class QueryBuilder
      *
      * Ver: http://php.net/manual/en/pdo.prepared-statements.php#97162
      */
-    private function cleanParameterName($parameters)
-    {
+    private function cleanParameterName($parameters){
         $cleaned_params = [];
         foreach ($parameters as $name => $value) {
             $cleaned_params[str_replace('-', '', $name)] = $value ;
@@ -85,14 +80,13 @@ class QueryBuilder
     }
 
 
-    public function validarLogin($table, $usuario ,$password){
-     
+    public function validarLogin($usuario ,$password){
         $statement = $this->pdo->prepare(
-            "SELECT * FROM usuarios
-            WHERE mail='{$usuario}' AND password='{$password}' "
+            "SELECT count(*) as cuenta FROM usuarios
+            WHERE mail=$usuario AND password=$password "
         );
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_CLASS);
+        return $statement;
     }
 
 /**
@@ -102,15 +96,7 @@ class QueryBuilder
  * 
  */
 
-/**
- *
- *  INICIO DE CONSULTAS RECUPERAR SITIO
- *
- */
-
  //recuperar listado de todos los sitios
-
-
 public function selectAllSitios(){ 
   /*  $statement = $this->pdo->prepare("SELECT `nombre`,`telefono`,`valoracionPrecio`,
     `valoracionAmbiente`, `valoracionServicio`,`idUbicacion` FROM sitio ");*/
@@ -118,7 +104,6 @@ public function selectAllSitios(){
    $statement->execute();
    return $statement->fetchAll(PDO::FETCH_CLASS);
 }
-
 
 public function selectSitio($idSitio){
     /*
@@ -131,13 +116,6 @@ public function selectSitio($idSitio){
      
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
-
-public function selectPlatos($idSitio){
-    $statement = $this->pdo->prepare("SELECT 'idPlato',`nombre` FROM 'plato' WHERE `idSitio`= $idSitio");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_CLASS);
-}
-
 
 public function selectUbicacion($idSitio){
     $statement = $this->pdo->prepare("SELECT idUbicacion, direccion, ciudad, provincia, x, y FROM ubicacion
@@ -159,31 +137,61 @@ public function selectMediosPagos($idListaMedios){
     WHERE lmp.idListaPagos = $idListaMedios");
 $statement->execute();
 return $statement->fetchAll(PDO::FETCH_CLASS);
-}
+} 
 
 
-public function selectListaCaractSitio($idListaCarac){ 
-    $statement = $this->pdo->prepare("SELECT cs.nombre,cs.descripcion FROM listacaractsitio lcs 
-         INNER JOIN caracteristicasitio cs  ON  lpc.idListaCaract = cs.idCaracteristica 
-         WHERE lps.idListaCaract = $$idListaCarac");
+public function selectListaCaractSitio($idSitio){ 
+    $statement = $this->pdo->prepare("SELECT cs.nombre FROM listacaractsitio lcs 
+         INNER JOIN caracteristicasitio cs  ON  lcs.idCaract = cs.idCaracteristica 
+         WHERE lcs.idSitio = $idSitio");
     $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_CLASS);
+    return $statement->fetchAll(PDO::FETCH_CLASS );
 }
-
-public function selectListaComentSitio($idListaComent){ 
-    $statement = $this->pdo->prepare("SELECT cs.descripcion, cs.valoracion,cs.fecha,u.alias,u.fotoPerfil
-         FROM listacomentsitios lcs 
-         INNER JOIN comentariositio cs  ON  lps.idComent=cs.idComentario 
-         INNER JOIN usuarios u ON cs.idUsuario=u.idUsuario
-         WHERE lpc.idLista = $idListaComent");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_CLASS);
-}
-
 
 public function selectImagenesSitio($idSitio){ 
     $statement = $this->pdo->prepare("SELECT cs.idImagen, cs.path
      FROM  imagenessitios cs WHERE cs.idSitio = $idSitio");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+
+public function selectValoracionSitio($idSitio){ 
+    $statement = $this->pdo->prepare
+    ("SELECT avg(cs.valoracionSabor) as valoracionSabor,avg( cs.valoracionPrecio)as valoracionPrecio,
+    avg(cs.valoracionAmbiente)as valoracionAmbiente  FROM comentariositios cs WHERE cs.idsitio = $idSitio");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+public function selectAllComentarios($idSitio,$offset,$per_page){ 
+    $statement = $this->pdo->prepare
+    ("SELECT cs.nombre, cs.descripcion,cs.fecha,cs.valoracionSabor,
+                cs.valoracionPrecio,cs.valoracionAmbiente
+         FROM comentariositios cs WHERE cs.idsitio = $idSitio LIMIT $offset, $per_page");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+public function selectAllPlatos($idSitio,$offset, $per_page){ 
+    //$statement = $this->pdo->prepare(" SELECT p.idPlato, p.nombre, p.precio, ip.path FROM platos p 
+    //INNER JOIN imagenesplatos ip on p.idPlato=ip.idPlato WHERE p.idSitio=$idSitio LIMIT $offset, $per_page" );
+     $statement = $this->pdo->prepare(" SELECT p.idPlato, p.nombre, p.precio FROM platos p 
+      WHERE p.idSitio=$idSitio LIMIT $offset, $per_page" );
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+public function getPages($idSitio,$tabla){ 
+    $total_pages_sql =  $this->pdo->prepare(" SELECT count(*) 
+    FROM $tabla p WHERE p.idSitio=$idSitio" );
+    $total_pages_sql->execute();
+    return $total_pages_sql->fetchColumn();
+}
+
+public function getCategorias(){ 
+    $statement =  $this->pdo->prepare("SELECT * 
+    FROM categorias" );
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
@@ -209,32 +217,18 @@ public function selectImagenesSitio($idSitio){
  */
 //recuperar listado de todos los platos
 
-public function selectAllPlato($table){ 
-    $statement = $this->pdo->prepare("SELECT idPlato,nombre, valoracion FROM {$table}");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_CLASS);
-}
 
-/**
- *
- *  INICIO DE CONSULTAS RECUPERAR PLATO
- *
- */
+
+
 //recuperar plato 
 //ListaImagenes
-public function selectPlato($idPlato){ 
-    $statement = $this->pdo->prepare("SELECT nombre,descripcion,valoracion,
-    idSitio,idListaInfo,idListaCarac,idListaComent FROM plato WHERE idPlato= $idPlato");
+public function selectPlato($idSitio,$idPlato){ 
+    $statement = $this->pdo->prepare("SELECT nombre,descripcion,precio
+     FROM platos WHERE idPlato= $idPlato and idSitio=$idSitio");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
 
-//recuperar sitio de plato X
-public function selectNombresitio($idSitio){
-    $statement = $this->pdo->prepare("SELECT 'idSitio',`nombre` FROM 'sitio' WHERE `idSitio`= $idSitio");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_CLASS);
-}
 
 //recuperar ListaInfo de plato X
 public function selectListaInfo($idListaInfo){ 
@@ -254,21 +248,6 @@ public function selectListaCaract($idListaCarac){
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
-//recuperar ListaComent de plato X
-public function selectListaComent($idListaComent){ 
-    $statement = $this->pdo->prepare("SELECT cp.descripcion,cp.valoracion,cp.fecha,u.alias,u.fotoPerfil
-         FROM listacomentplatos lcp 
-         INNER JOIN comentarioplato cp  ON  lpc.idComent=cp.idComentario 
-         INNER JOIN usuarios u ON cp.idUsuario=u.idUsuario
-         WHERE lpc.idLista = $idListaComent");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_CLASS);
-}
-/**
- *
- *  FIN DE CONSULTAS RECUPERAR PLATO
- *
- */
 
 /**
  * 

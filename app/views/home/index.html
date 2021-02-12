@@ -2,9 +2,7 @@
 
 {% block title %}Inicio{% endblock %}
 
-{% block header %}
-    {{ include('partials/nav.html') }}
-{% endblock %}
+
 
 {% block head %}
     {{ parent() }}
@@ -12,6 +10,7 @@
     <link rel="stylesheet" href="/public/css/index.css">
     <link rel="stylesheet" href="/public/css/search-bar.css">
     <link rel="stylesheet" href="/public/css/resultados.css">
+    <script src="/public/script/carusel.js"></script>
 {% endblock %}
 
 {% block main %}
@@ -52,7 +51,7 @@
           <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
         </div>
         <div class="plates-text" >
-          <a href="/resto?idSitio=1"><h3>Card 2</h3></a>
+          <a href="/resto?Sitio=1"><h3>Card 2</h3></a>
           <p>Some text</p>
           <p>Some text</p>
         </div>

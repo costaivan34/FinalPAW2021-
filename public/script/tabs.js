@@ -1,3 +1,12 @@
+
+function loadmapa(longitud,latitud) {
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY29zdGFpdmFuMzQiLCJhIjoiY2treDFvM25yMTd1ZjJ4anVldTA3ZHFpYiJ9.EsQJxJQTd6YbOHyUWcftnw';
+  map = new mapboxgl.Map({container: 'mapa',style: 'mapbox://styles/mapbox/streets-v11',center: [longitud,latitud],zoom: 15 });
+  map.addControl(new mapboxgl.NavigationControl());
+  var marker = new mapboxgl.Marker().setLngLat([longitud, latitud]).addTo(map);
+}
+
+
 function openTab(evt, Name) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -17,4 +26,12 @@ function openTab(evt, Name) {
   // Show the current tab, and add an "active" class to the link that opened the tab
   document.getElementById(Name).style.display = "block";
   evt.currentTarget.className += " active";
+  if(Name=="Ubicacion"){
+    loadmapa(longitud,latitud);
+  }
+  if(Name=="Platos"){
+
+    getPlato(1,sitio);
+  }
+  
 }

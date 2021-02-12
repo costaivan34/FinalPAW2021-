@@ -7,7 +7,8 @@ use App\Core\Controller;
 use App\Models\Plato;
 
 class PlatoController extends Controller{
-
+    protected $idSitio;
+    protected $idPlato;
     public function __construct(){
         $this->model = new Plato();
         session_start();
@@ -20,6 +21,33 @@ class PlatoController extends Controller{
         $datos['todosPlatos'] = $todosPlatos;
     /*    $datos["userLogueado"] = $_SESSION['user'];*/
         return view('/plato/platoTodos', compact('datos'));
+    }
+
+    public function getOne(){
+        $idSitio = htmlspecialchars($_GET['Sitio']);
+        $idPlato = htmlspecialchars($_GET['Plato']);
+        $datos['OnePlato'] = $this->model->getOne($idSitio,$idPlato); 
+    /*    $datos['Ubicacion'] = $this->model->getUbicacion($idSitio);
+        $datos['Horario'] = $this->model->getHorario($idSitio);
+        $datos['Imagenes'] = $this->model->getImagenesSitio($idSitio);
+        $datos['Comentarios'] = $this->model->getComentariosSitio($idSitio);
+        $datos['Valoracion'] =  $this->model->getValoracionSitio($idSitio);
+        $datos['Caract'] =  $this->model->getCaractSitio($idSitio);*/
+      var_dump( $datos['OnePlato']);
+        return view('/sitios/OneSitio',compact('datos'));
+    }
+
+    public function getAll(){
+        $idSitio = htmlspecialchars($_GET['Sitio']);
+        $datos['OneSitio'] = $this->model->getOne($idSitio);
+        $datos['Ubicacion'] = $this->model->getUbicacion($idSitio);
+        $datos['Horario'] = $this->model->getHorario($idSitio);
+        $datos['Imagenes'] = $this->model->getImagenesSitio($idSitio);
+        $datos['Comentarios'] = $this->model->getComentariosSitio($idSitio);
+        $datos['Valoracion'] =  $this->model->getValoracionSitio($idSitio);
+        $datos['Caract'] =  $this->model->getCaractSitio($idSitio);
+     // var_dump( $datos['Caract']);
+        return view('/sitios/OneSitio',compact('datos'));
     }
    
 }

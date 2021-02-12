@@ -42,9 +42,6 @@
 /* Estilo de la pestaña */
 .tab {
   margin-top: 50px;
-  margin-left: 2.5%;
-  margin-right:25px;
-  width: 64.7%;
   overflow: hidden;
   border: 1px solid #E7CF7F;
   background-color: #F5F2E9;
@@ -62,7 +59,8 @@
 }
 
 .tab button:hover {  
-  color: #F59287;
+
+  background-color: #F59287;
 }
 
 
@@ -79,15 +77,11 @@
 
 .tabcontent {
   display: none;
-  margin-left: 2.5%;
-  margin-right: 9px;
-  margin-bottom: 40px;
   background-color: rgba(245, 242, 233, 0.8) ;
   border: 1px solid #E7CF7F;
   border-top: none;
-  width: 61%;
-  height: 100%;
   padding: 25px;
+  margin-bottom: 2%;
 }
 
 .tabcontent .active{
@@ -157,36 +151,66 @@ dl.detalles dd {
   border-radius: 5px;
  
 }
-    
-.adicional{
-  margin-right: 50px;
+
+.side-bar > .detalles > dt{
+  text-align: right;
+}
+
+.side-bar section{
+border: 1px solid #E7CF7F;
+}
+
+.horarios{
+  margin-top: 10%;
+}
+
+#wrapper{
+ 
+  margin-right: 25%;
+  margin-left: 2.5%;
+} 
+
+
+.info{
+  float: left;
+  width: 100%;
+}
+
+.side-bar{
+ /* margin-right: 50px;
   overflow: hidden; 
-  height: 40%;
   width: 25%;
-  position: absolute;
+  position: relative;
   right: 0px;
   top: 0;
   text-align: left;
-  border: 1px solid #E7CF7F;
+  margin-top: 50.80%;
+*/
   background-color: #F5F2E9 ;
-  margin-top: 50.80%;    
+  float: left;
+  margin-top: 5%;
+  width: 25%;
+  margin-right: -25%;
+  position: relative;
+  left: 2%;
+  margin-bottom: 2%;
 }
 
-.adicional ul{
+.side-bar ul{
   margin-left: 20px;
   margin-right: 20px;
 }
 
-.adicional li{
-  padding-top: 20px;
+.side-bar li{
+  padding-bottom: 20px;
   text-align: start;
   border-bottom: 1px solid #E7CF7F;
 }
 
 
-.adicional h4{
+
+.side-bar h4{
   padding: 20px 40px;
-  
   text-align: center;
   background-color: #E7CF7F ;
 }
@@ -211,10 +235,11 @@ dl.detalles dd {
 }
 
 
-  .mapa iframe{
+  #mapa {
     height:100%;
     width:100%;
-    min-height: 450px;
+    min-height: 600px;
+    overflow: visible;
   }
 
  
@@ -281,10 +306,6 @@ dl.detalles dd {
 }
 
 
-.info{
-  margin-bottom: 20px;
-}
-
 
 .perfil{
   float: left;
@@ -293,3 +314,27 @@ dl.detalles dd {
   margin-top: 0;
 }
 
+ul.paginacion {
+  border: 1px solid #E7CF7F;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+ul.paginacion li {display: inline;}
+
+ul.paginacion li a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+
+ul.paginacion li a:hover {
+  color: black;
+  background-color: #F59287;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}

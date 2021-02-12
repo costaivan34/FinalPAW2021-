@@ -7,10 +7,10 @@
 <link rel="stylesheet" href="/public/css/search-bar.css">
 <link rel="stylesheet" href="/public/css/near-sitios.css">
 
-
-<script src="/public/script/tabs.js"></script>
+<script src="/public/script/mapa.js"></script>
 <script src="/public/script/modal.js"></script>
-
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.css'/>
 {% endblock %}
 {% block title %}{{ datos.OneSitio[0].nombre }}{% endblock %}
 {% block header %}
@@ -28,7 +28,11 @@
   <div class="row1">
     <div class="column" >
       <div class="mapa">
-        <iframe class="iframe"  src="https://www.openstreetmap.org/export/embed.html?bbox=-59.319992065429695%2C-35.02085912032271%2C-59.25424575805664%2C-34.98078374541327"></iframe>
+       <script>
+            var latitud = '1';
+            var longitud = '1';
+            
+          </script>
       </div>
     </div>
     <div class="column" >

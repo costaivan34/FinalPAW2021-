@@ -4,8 +4,11 @@
 <link rel="stylesheet" href="/public/css/restauranteSingle.css">
 <link rel="stylesheet" href="/public/css/platoSingle.css">
 <link rel="stylesheet" href="/public/css/comentarios.css">
+<script src="/public/script/carusel.js"></script>
 <script src="/public/script/tabs.js"></script>
 <script src="/public/script/modal.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.css'/>
 
 {% endblock %}
 {% block title %}{{ datos.OneSitio[0].nombre }}{% endblock %}
@@ -20,7 +23,13 @@
     <div class="slideshow-container">
       <!-- Full-width images with number and caption text -->
       {% for N in datos.Imagenes %}
-      <div class="mySlides fade">
+      {% if loop.index-1 == 0  %}
+        <div class="mySlides fade "style="display:block;">
+          <div class="numbertext"></div>
+          <img src="{{ datos.Imagenes[ loop.index-1 ].path }}" >
+        </div>
+      {% endif %}
+      <div class="mySlides fade "style="display:none;">
         <div class="numbertext"></div>
         <img src="{{ datos.Imagenes[ loop.index-1 ].path }}" >
       </div>
@@ -33,280 +42,261 @@
       <h3>{{ datos.OneSitio[0].nombre }}</h3>
     </div>
   </div>
-  <div class="info">
-    <!-- Tab links -->
-    <div class="tab">
-      <button class="tablinks active" onclick="openTab(event, 'Descripcion')"> <i class="tab-title fa fa-home">Descripcion</i></button>
-      <button class="tablinks " onclick="openTab(event, 'Ubicacion')"><i class="tab-title fa fa-map-marker">Localizacion</i></button>
-      <button class="tablinks" onclick="openTab(event, 'Platos')"><i class="tab-title fa fa-cutlery">Platos</i></button>
-      <button class="tablinks" onclick="openTab(event, 'Equipo')"><i class="tab-title fa fa-users ">Conoce al Equipo</i></button>
-      <button class="tablinks" onclick="openTab(event, 'Valoracion')"><i class=" tab-title fa fa-star-o ">Opiniones</i></button>
-    </div>
-    
-    <!-- Tab content Descripcion-->
-    <div id="Descripcion" class="tabcontent active" style="display:block;">
-            <article class=" infoBasica">
-                  <section >
-                      <h3>Descripcion</h3><hr class="separador">
-                      <p>{{ datos.OneSitio[0].descripcion}}</p>
-                  </section>              
-                  <section >
-                    <h3>Contacto</h3><hr class="separador">              
-                      <dl class="detalles">
-                        <dt>Direccion</dt>
-                        <dd>{{ datos.Ubicacion[0].direccion }}</dd>
-                        <dt>Ubicacion</dt>
-                        
-                        <dd>{{ datos.Ubicacion[0].ciudad }} {{ datos.Ubicacion[0].provincia }} </dd>
-                        <dt>Horario</dt>
-
-                        <dd>{{datos.Horario.s}}</dd>
-                       
-                        <dt>Mail</dt>
-                        <dd>{{ datos.OneSitio[0].sitioWeb }}</dd>
-                        <dt>Telefono</dt>
-                        <dd class="ultimo">{{ datos.OneSitio[0].telefono }}</dd>
-                      </dl>
-                  </section>              
-            </article>
+  <div id="wrapper">
+    <div class="info">
+      <!-- Tab links -->
+      <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'Descripcion')"> <i class="tab-title fa fa-home">Descripcion</i></button>
+        <button class="tablinks " onclick="openTab(event, 'Ubicacion')"><i class="tab-title fa fa-map-marker">Localizacion</i></button>
+        <button class="tablinks" onclick="openTab(event, 'Platos')"><i class="tab-title fa fa-cutlery">Platos</i></button>
+        <button class="tablinks" onclick="openTab(event, 'Valoracion')"><i class=" tab-title fa fa-star-o ">Opiniones</i></button>
       </div>
-
-    <!-- Tab content Ubicacion-->
-    <div id="Ubicacion" class="tabcontent noactive">
-    
-      <div class="mapa">
-        <iframe class="iframe"src="https://www.openstreetmap.org/export/embed.html?bbox=-59.319992065429695%2C-35.02085912032271%2C-59.25424575805664%2C-34.98078374541327"></iframe>
-      </div>
-    </div>
-    <!-- Tab content Platos-->
-    <div id="Platos" class="tabcontent noactive">
       
-      <div class="fila">
-        <div class="plato">
-          <button onclick="openModal()" id="boton-modal" class="carta">
-            <section>
-              <img src="/public/res/2.jpg" alt="Denim Jeans" >
-            </section>
-            <section class="plato-text">
-              <h3>Cardaaaaa 2</h3>
-              <p>Some text</p>
-              <p>Some text</p>
-            </section>
-          </button>
+      <!-- Tab content Descripcion-->
+      <div id="Descripcion" class="tabcontent active" style="display:block;">
+              <article class=" infoBasica">
+                    <section >
+                        <h3>Descripcion</h3><hr class="separador">
+                        <p>{{ datos.OneSitio[0].descripcion}}</p>
+                    </section>              
+                    <section >
+                      <h3>Contacto</h3><hr class="separador">              
+                        <dl class="detalles">
+                          <dt>Direccion</dt>
+                          <dd>{{ datos.Ubicacion[0].direccion }}</dd>
+                          <dt>Ubicacion</dt>
+                          <dd>{{ datos.Ubicacion[0].ciudad }} {{ datos.Ubicacion[0].provincia }} </dd>
+                          <dt>Mail</dt>
+                          <dd>{{ datos.OneSitio[0].sitioWeb }}</dd>
+                          <dt>Telefono</dt>
+                          <dd class="ultimo">{{ datos.OneSitio[0].telefono }}</dd>
+                        </dl>
+                    </section>              
+              </article>
         </div>
-        <div class="plato">
-          <button  onclick="openModal()" id="boton-modal" class="carta">
-            <section>
-              <img src="/public/res/1.jpg" alt="Denim Jeans" >
-            </section>
-            <section class="plato-text">
-              <h3>Card 2</h3>
-              <p>Some text</p>
-              <p>Some text</p>
-            </section>
-          </button>
-        </div>  
-      </div>
 
-      
-    </div>
-    <!-- Tab content Equipo-->
-    <div id="Equipo" class="tabcontent noactive">
-      <h3>Conoce al Equipo</h3>
-      <div class="fila">
-        <div class="perfil">
-          <button id="myBtn3" class="myBtn2">
-            <div>
-              <img src="/public/res/team2.jpg" alt="Denim Jeans" style="width:100%">
-            </div>
-            <div class="plates-text">
-              <h3>John Doe</h3>
-              <p>CEO & Founder</p>
-            </div>
-          </button>
+      <!-- Tab content Ubicacion-->
+      <div id="Ubicacion" class="tabcontent noactive">
+        <div id="mapa"></div>
+          <script>
+            var latitud = '{{ datos.Ubicacion[0].x}}';
+            var longitud = '{{ datos.Ubicacion[0].y}}';
+            var sitio = '{{datos.OneSitio[0].idSitio}}';
+          </script>
         </div>
-        <div class="perfil">
-          <button id="myBtn3" class="myBtn2">
-            <div>
-              <img src="/public/res/team2.jpg" alt="Denim Jeans" style="width:100%">
-            </div>
-            <div class="plates-text">
-              <h3>John Doe</h3>
-              <p>Encargado</p>
-            </div>
-          </button>
-        </div>
-        <div class="perfil">
-          <button id="myBtn3" class="myBtn2">
-            <div>
-              <img src="/public/res/team2.jpg" alt="Denim Jeans" style="width:100%">
-            </div>
-            <div class="plates-text">
-              <h3>John Doe</h3>
-              <p>Chef</p>
-            </div>
-          </button>
-        </div>
-      
-    </div>
-    </div>
-    <!-- Tab content Valoracion-->
-    <div id="Valoracion" class="tabcontent noactive">
-      <h3>Valoracion </h3><hr class="separador">
-     
-     
-      <ul class="valoracion2">
-          
-        <li> 
-          <h4>Precio</h4>{{ datos.OneSitio[0].valoracionPrecio }}
-          <p class="clasificacion">
-            {% for i in 1..5 %}
-              
-            {% endfor %}
-            <span class="fa fa-star fa-2x"></span>
-            <span class="fa fa-star fa-2x"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-          </p>
-        </li>
-        <li>
-        <h4>Sabor</h4>
-        <p class="clasificacion">
-          <span class="fa fa-star fa-2x"></span>
-          <span class="fa fa-star fa-2x"></span>
-          <span class="fa fa-star fa-2x checked"></span>
-          <span class="fa fa-star fa-2x checked"></span>
-          <span class="fa fa-star fa-2x checked"></span>
-    
-        </p>
-        </li>
-        <li>
-        <h4>Ambiente</h4>
-        <p class="clasificacion">
-          <span class="fa fa-star fa-2x"></span>
-          <span class="fa fa-star fa-2x"></span>
-          <span class="fa fa-star fa-2x checked"></span>
-          <span class="fa fa-star fa-2x checked"></span>
-          <span class="fa fa-star fa-2x checked"></span>
-
-        </p>
-        </li>
-      </ul>
-      
-
-        <h3>Comentarios </h3><hr class="separador">
-        <ul class="lista-coment">
-          <li class="comentario">
-              <img class="coment-img" src="/public/res/team2.jpg" alt="Denim Jeans" >
-              <h4 class="coment-nombre">John Doe</h4>
-              <ul class="valoracion">
-                <li> <h2>Precio</h2>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                </li>
-                <li>
-                <h2>Sabor</h2>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                </li>
-                <li>
-                <h2>Ambiente</h2>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                </li>
-              </ul>
-              <p class="coment-text">mediante el atributo size podemos definir el tamaño
-                 de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-                 a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-                 varíe su tamaño. El texto irá desapareciendo por la izquierda.
-                 mediante el atributo size podemos definir el tamaño
-                 de la caja. Es decir, la apariencia de la misma. Si el texto que vamos 
-                 a escribir no cabe en la caja, éste se desplazará pero sin que la caja
-                 varíe su tamaño. El texto irá desapareciendo por la izquierda.</p>
-          </li>
+      <!-- Tab content Platos-->
+      <div id="Platos" class="tabcontent noactive">
+        <div class="fila">
          
-        </ul>
-      <form method="post" action="sendcomment.php" class="deja-comentario">
-        <h3>¡Deja un comentario!</h3>
-        <input type="text" name="NAME" value="" size="20" maxlength="20" placeholder="Nombre (requerido)" required />     
-        <input type="text" name="EMAIL" value="" size="20" maxlength="20" placeholder="Correo electrónico" />
-        <textarea name="COMMENT" rows="10" cols="50" wrap="soft" placeholder="Máximo 1000 carácteres" maxlength="1000" required></textarea>
-        <ul class="valoracion2">
+          {% for N in datos.PlatosPag %}
+            <div class="plato">
+              <button onclick="openModal()" id="boton-modal" class="carta">
+                <section>
+                  <img src="{{ N.path }}" alt="Denim Jeans" >
+                </section>
+                <section class="plato-text">
+                  <h3>{{ N.nombre }}</h3>
+                </section>
+              </button>
+            </div>
+          {% endfor %}
+         
+        </div>
+        <ul class="paginacion">
+          <li><a href="/resto?Sitio=1&platopage=1" onclick="getplato(1,{{datos.OneSitio[0].idSitio}})">«</a></li>
+          {% for N in 1..datos.PaginacionPlatos %}
+          <li><button onclick="getPlato({{N}},{{datos.OneSitio[0].idSitio}});">{{N}}</button></li>
+          {% endfor %}
           
-          <li> <h4>Precio</h4>
-            <p class="clasificacion">
-              <input id="radio1" type="radio" name="estrellas" value="5">
-              <label  class="fa fa-star" for="radio2"> </label>
-              <input id="radio2" type="radio" name="estrellas" value="4">
-              <label  class="fa fa-star" for="radio2"> </label>
-              <input id="radio3" type="radio" name="estrellas" value="3">
-              <label class="fa fa-star" for="radio3"> </label>
-              <input id="radio4" type="radio" name="estrellas" value="2">
-              <label class="fa fa-star " for="radio4"> </label>
-              <input id="radio5" type="radio" name="estrellas" value="1">
-              <label class="fa fa-star " for="radio5"> </label>
-            </p>
-          </li>
-          <li>
-          <h4>Sabor</h4>
-          <p class="clasificacion">
-            <input id="radio1" type="radio" name="estrellas" value="5">
-            <label class="fa fa-star" for="radio1"> </label>
-            <input id="radio2" type="radio" name="estrellas" value="4">
-            <label  class="fa fa-star" for="radio2"> </label>
-            <input id="radio3" type="radio" name="estrellas" value="3">
-            <label class="fa fa-star" for="radio3"> </label>
-            <input id="radio4" type="radio" name="estrellas" value="2">
-            <label class="fa fa-star " for="radio4"> </label>
-            <input id="radio5" type="radio" name="estrellas" value="1">
-            <label class="fa fa-star " for="radio5"> </label>
-          </p>
-          </li>
-          <li>
-          <h4>Ambiente</h4>
-          <p class="clasificacion">
-            <input id="radio1" type="radio" name="estrellas" value="5">
-            <label class="fa fa-star" for="radio1"> </label>
-            <input id="radio2" type="radio" name="estrellas" value="4">
-            <label  class="fa fa-star" for="radio2"> </label>
-            <input id="radio3" type="radio" name="estrellas" value="3">
-            <label class="fa fa-star" for="radio3"> </label>
-            <input id="radio4" type="radio" name="estrellas" value="2">
-            <label class="fa fa-star " for="radio4"> </label>
-            <input id="radio5" type="radio" name="estrellas" value="1">
-            <label class="fa fa-star " for="radio5"> </label>
-          </p>
-          </li>
+          <li><a href="/resto?Sitio=1&platopage={{datos.PaginacionPlatos}}" onclick="getplato({{datos.PaginacionPlatos}},{{datos.OneSitio[0].idSitio}})">»</a></li>
         </ul>
+      </div>
 
-        <input type="submit" value="Enviar" name="Enviar" />
-      </form>
+      <!-- Tab content Valoracion-->
+      <div id="Valoracion" class="tabcontent noactive">
+        <h3>Valoracion </h3><hr class="separador">
+          <ul class="valoracion2">
+            <li> 
+              <h4>Precio</h4>
+              <p class="clasificacion">
+                {% for d in 1..5 %}
+                  {% if datos.Valoracion[0].valoracionPrecio  >= d %}
+                    <span class="fa fa-star fa-2x checked"></span>      
+                  {% else %}                
+                    <span class="fa fa-star fa-2x "></span>  
+                  {% endif %}
+                 {% endfor %}    
+              </p>
+            </li>
+            <li>
+            <h4>Sabor</h4>
+            <p class="clasificacion">
+              {% for d in 1..5 %}
+                  {% if datos.Valoracion[0].valoracionSabor  >= d %}
+                    <span class="fa fa-star fa-2x checked"></span>      
+                  {% else %}                
+                    <span class="fa fa-star fa-2x "></span>  
+                  {% endif %}
+              {% endfor %}    
+            </p>
+            </li>
+            <li>
+            <h4>Ambiente</h4>
+            <p class="clasificacion">
+              {% for d in 1..5 %}
+                {% if datos.Valoracion[0].valoracionAmbiente >= d %}
+                 <span class="fa fa-star fa-2x checked"></span>      
+                {% else %}                
+                 <span class="fa fa-star fa-2x "></span>  
+                {% endif %}
+             {% endfor %}    
+            </p>
+            </li>
+          </ul>
+          <section>
+            <h3>Comentarios </h3><hr class="separador">
+            <ul class="lista-coment">
+              {% for c in datos.Comentarios %}
+              {% set s =loop.index-1 %}
+                  <li class="comentario">
+                      <img class="coment-img" src="/public/res/team2.jpg" alt="Denim Jeans" >
+                      <h4 class="coment-nombre">{{ datos.Comentarios[s].nombre }}</h4>
+                      <ul class="valoracion">
+                        <li> <h2>Precio</h2>
+                          {% for d in 1..5 %}
+                            {% if datos.Comentarios[s].valoracionPrecio  >= d %}
+                              <span class="fa fa-star checked"></span>
+                            {% else %}
+                              <span class="fa fa-star"></span>
+                            {% endif %}
+                            {% endfor %}    
+                        </li>
+                        <li> <h2>Sabor</h2>
+                          {% for a in 1..5 %}
+                            {% if datos.Comentarios[s].valoracionSabor  >= a %}
+                              <span class="fa fa-star checked"></span>
+                            {% else %}
+                              <span class="fa fa-star"></span>
+                            {% endif %}
+                            {% endfor %}    
+                        </li>
+                        <li> <h2>Ambiente</h2>
+                          {% for b in 1..5 %}
+                            {% if datos.Comentarios[s].valoracionAmbiente  >= b %}
+                              <span class="fa fa-star checked"></span>
+                            {% else %}
+                              <span class="fa fa-star"></span>
+                            {% endif %}
+                            {% endfor %}    
+                        </li>
+                      
+                      </ul>
+                      <p class="coment-text">{{ datos.Comentarios[loop.index-1].descripcion }}</p>
+                  </li>
+              {% endfor %} 
+            </ul>
+            <ul class="paginacion">
+              <li><a href="/resto?Sitio=1&platopage=1">«</a></li>
+              <li><a  class="active" onclick="getPlato()">1</a></li>
+              <li><a href="/resto?Sitio=1&platopage=2">2</a></li>
+              <li><a href="/resto?Sitio=1&platopage=3">3</a></li>
+              <li><a href="/resto?Sitio=1&platopage=4">4</a></li>
+              <li><a href="/resto?Sitio=1&platopage=5">5</a></li>
+              <li><a onclick="getPlato()">6</a></li>
+              <li><a href="/resto?Sitio=1&platopage=7">7</a></li>
+              <li><a href="/resto?Sitio=1&platopage=7">»</a></li>
+            </ul>
+        </section>
+        <form method="post" action="/sendComentario" class="deja-comentario">
+          <h3>¡Deja un comentario!</h3>
+          <input type="text" name="NAME" value="" size="20" maxlength="20" placeholder="Nombre (requerido)" required />     
+          <input type="text" name="EMAIL" value="" size="20" maxlength="20" placeholder="Correo electrónico" />
+          <textarea name="COMMENT" rows="10" cols="50" wrap="soft" placeholder="Máximo 1000 carácteres" maxlength="1000" required></textarea>
+          <ul class="valoracion2">
+            <li> <h4>Precio</h4>
+              <p class="clasificacion">
+                <input id="Pradio1" type="radio" name="estrellas" value="5">
+                <label  class="fa fa-star" for="radio2"> </label>
+                <input id="Pradio2" type="radio" name="estrellas" value="4">
+                <label  class="fa fa-star" for="radio2"> </label>
+                <input id="Pradio3" type="radio" name="estrellas" value="3">
+                <label class="fa fa-star" for="radio3"> </label>
+                <input id="Pradio4" type="radio" name="estrellas" value="2">
+                <label class="fa fa-star " for="radio4"> </label>
+                <input id="Pradio5" type="radio" name="estrellas" value="1">
+                <label class="fa fa-star " for="radio5"> </label>
+              </p>
+            </li>
+            <li> <h4>Sabor</h4>
+              <p class="clasificacion">
+                <input id="Sradio1" type="radio" name="estrellas" value="5">
+                <label class="fa fa-star" for="radio1"> </label>
+                <input id="Sradio2" type="radio" name="estrellas" value="4">
+                <label  class="fa fa-star" for="radio2"> </label>
+                <input id="Sradio3" type="radio" name="estrellas" value="3">
+                <label class="fa fa-star" for="radio3"> </label>
+                <input id="Sradio4" type="radio" name="estrellas" value="2">
+                <label class="fa fa-star " for="radio4"> </label>
+                <input id="Sradio5" type="radio" name="estrellas" value="1">
+                <label class="fa fa-star " for="radio5"> </label>
+              </p>
+            </li>
+            <li><h4>Ambiente</h4>
+              <p class="clasificacion">
+                <input id="Aradio1" type="radio" name="estrellas" value="5">
+                <label class="fa fa-star" for="radio1"> </label>
+                <input id="Aradio2" type="radio" name="estrellas" value="4">
+                <label  class="fa fa-star" for="radio2"> </label>
+                <input id="Aradio3" type="radio" name="estrellas" value="3">
+                <label class="fa fa-star" for="radio3"> </label>
+                <input id="Aradio4" type="radio" name="estrellas" value="2">
+                <label class="fa fa-star " for="radio4"> </label>
+                <input id="Aradio5" type="radio" name="estrellas" value="1">
+                <label class="fa fa-star " for="radio5"> </label>
+              </p>
+            </li>
+          </ul>
+          <input type="submit" value="Enviar" name="Enviar" />
+        </form>
+      </div>
     </div>
-  </div>
-  <!-- Tab content adicional-->
-  <div class="adicional">
-    <h4><i class=" fa fa-briefcase "></i>Caracteristicas</h4>
-    <ul class="fa-ul caract"> 
-      <li><i class=" fa fa-wifi enable"></i>WI-FI</li>
-      <li><i class=" fa fa-wheelchair enable"></i>Acceso Personas con Discapacidad</li>
-      <li><i class=" fa fa-snowflake-o enable"></i>Aire Acondicionado</li>
-      <li><i class=" fa fa-car enable"></i>Estacionamiento</li>
-      <li><i class=" fa fa-television enable"></i>TV</li>
-      <li><i class=" fa fa-child disable"></i>Juegos para niños</li>
-       
-    </ul>
-  </div>
 
+    <div class="side-bar">
+      <section class="caracteristicas">
+        <h4><i class=" fa fa-briefcase "></i>Servicios</h4>
+        <ul class="fa-ul caract"> 
+            {% if "wifi" in datos.Caract  %}
+              <li> <i class=" fa fa-wifi enable"></i>WI-FI    </li>
+              {% endif %}
+            {% if  "wheelchair" in datos.Caract  %}
+              <li> <i class=" fa fa-wheelchair enable"></i>Acceso Personas con Discapacidad</li>
+              {% endif %}
+            {% if  "aireacondicionado" in datos.Caract %}
+              <li>  <i class=" fa fa-snowflake-o enable"></i>Aire Acondicionado   </li>
+              {% endif %}
+            {% if  "estacionamiento" in datos.Caract %}
+              <li>  <i class=" fa fa-car enable"></i>Estacionamiento    </li>
+              {% endif %}
+            {% if "tv" in datos.Caract   %}
+              <li> <i class=" fa fa-television enable"></i>TV      </li>
+              {% endif %}
+            {% if "niños" in datos.Caract %}
+              <li>  <i class=" fa fa-child enable"></i>Juegos para niños    </li>
+            {% endif %}
+        </ul>
+      </section>
+      <section class="horarios">
+        <h4><i class=" fa fa-clock-o "></i>Horario</h4>
+          <dl class="detalles">
+            {% for N in datos.Horario %}
+              <dt>{{ datos.Horario[loop.index-1].nombre }} </dt>
+              <dd>{{ datos.Horario[loop.index-1].HDesde }} a {{ datos.Horario[loop.index-1].HHasta }}</dd>
+            {% endfor %}
+            
+          </dl>
+      </section>
+        </div>
+  </div>
 
 <!-- The Modal for plato -->
 <div id="plato" class="modal-plato" >
@@ -315,36 +305,29 @@
       <article class=" infoBasica">
         <span onclick="closeModal()" class="closeModal" title="Close Modal">&times;</span>
         <section class="title-plato">
-          <h3>Una lasagna de la concha de la madre</h3>
+          <h3></h3>
           <hr class="separador">      
         </section>
         <section class="descrip">
           <img src="/public/res/2.jpg" alt="Denim Jeans" >
                 <h3>Descripcion</h3>
-                  <p>{{ datos.OneSitio[0].descripcion }}Se trata de un plato que tiene pasta en
-                    láminas intercaladas con distintos ingredientes (carnes, verduras, pescados)
-                    y que se elabora con bechamel y abundante queso rallado para gratinarla al
-                    horno. La palabra “lasaña” proviene del griego “lasanon“, a través del 
-                    latín “lasanum“, que se refiere al cazo en el que se cocinaba. El propio 
-                    Cicerón menciona su pasión por el “Laganum”, que eran tiras de pasta largas. 
-                    Según los datos que nos han llegado, es muy posible que en esta época los 
-                    italianos desarrollaran las máquinas para elaborar la pasta de lasaña.</p>
+                  <p id="descripcion"></p>
         </section>    
         <section class="infonut">
             <h3>Informacion Nutricional</h3><hr class="separador">
             <dl class="caracteristicas">
               <dt>Peso</dt>
-                <dd>calle falsa 123</dd>
+                <dd id="Peso"></dd>
               <dt>Energia</dt>
-                <dd>calle falsa 123{{ datos.infoBasica.ubicacion }}</dd>
+                <dd id="Energia"></dd>
               <dt>Carbohidratos</dt>
-                <dd>calle falsa 123{{ datos.infoBasica.horario }}</dd>
+                <dd id="Carbo"></dd>
               <dt>Proteina</dt>
-                <dd>calle falsa 123{{ datos.infoBasica.horario }}</dd>
+                <dd id="Proteina"></dd>
               <dt>Grasas Totales</dt>
-                <dd>calle falsa 123{{ datos.infoBasica.horario }}</dd>
+                <dd id="Grasas"></dd>
               <dt>Sodio</dt>
-                <dd class="ultimo">calle falsa 123{{ datos.infoBasica.telefono }}</dd>
+                <dd id="Sodio" class="ultimo"></dd>
             </dl>
         </section>
        
@@ -365,3 +348,4 @@
 </div>
 
 {% endblock %}
+

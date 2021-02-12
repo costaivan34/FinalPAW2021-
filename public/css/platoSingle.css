@@ -19,7 +19,7 @@
 .modal-plato {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 2; /* Sit on top */
+    z-index: 60; /* Sit on top */
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */

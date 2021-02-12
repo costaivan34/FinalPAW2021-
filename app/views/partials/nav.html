@@ -1,4 +1,5 @@
 {% block nav %}
+<script src="/public/script/loginmodal.js"></script>
 
     <ul class="topnav">
         <li> <a class="nav-logo" href="#">
@@ -19,24 +20,24 @@
 <div id="id01" class="modal" >
 
     <!-- Modal Content for login-->
-    <form class="modal-content animate" action="/action_page.php">  
+    <form class="modal-content animate" method="POST" id="formLogin">  
       <div class="imgcontainer">
         <img src="/public/res/avatar-2.png" alt="Avatar" class="avatar">
-        <h3>ACCEDE A TU CUENTA</h3>
+        <h3 id="Mensaje">ACCEDE A TU CUENTA</h3>
         <span onclick="closeLoginModal()" class="close" title="Close Modal">&times;</span>
       </div>
-      
+
       <div class="container">
-        
-        <input class="caja-login" type="text" placeholder="&#xf0e0;Usuario" name="uname" required>
+        <div id="messageBoxId"></div>
+        <input class="caja-login" type="text" placeholder="&#xf0e0;Usuario" name="userName" id="userName" required>
        
-        <input class="caja-login" type="password" placeholder="&#xf084;Contraseña" name="psw" required>
+        <input class="caja-login" type="password" placeholder="&#xf084;Contraseña" name="password" id="password" required>
         <label>
            
             <input type="checkbox" checked="checked" name="remember">Recordar mi usuario
           </label>
-        <button type="submit">Login</button>
-  
+        <button onclick="callLogin();" type="submit" >Login</button>
+        
         <span class="psw"><a href="#">¿Has olvidado tu contraseña?</a></span>
         
       </div>

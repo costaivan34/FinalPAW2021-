@@ -7,11 +7,8 @@ use App\Core\Model;
 class Sitio extends Model{
     protected $table;
     protected $idSitio;
-    protected $idUbicacion;
-    protected $idHorario;
-    protected $idMedios;
-    protected $idCarac;
-    protected $idComent;
+    protected $n_per_plato = 2;
+    protected $n_per_coment = 2;
 
     public function getAll(){
         $todos = $this->db->selectAllSitios();
@@ -20,26 +17,8 @@ class Sitio extends Model{
     }
 
     public function getOne($idSitio){
-        /*
-        public function selectPlatos($idSitio){
-        public function selectUbicacion($idUbicacion){
-        public function selectHorarios($idListaHorario){
-        public function selectMediosPagos($idListaMedios){
-        public function selectListaCaractSitio($idListaCarac){ 
-        public function selectListaComentSitio($idListaComent){ 
-        public function selectImagenesSitio($idSitio){ 
-        */
-        
         $basic = $this->db->selectSitio($idSitio);
-        $basicSitio = json_decode(json_encode($basic), True);
-        
-        /*$datos["sitio"] = $this->db->selectPlatos($basicSitio['idSitio']);
-        $datos["ubicacion"] = $this->db->selectUbicacion($basicSitio['idUbicacion']);
-        $datos["horarios"]  = $this->db->selectHorarios($basicSitio['idlistaHorario']);
-        $datos["medios"]  = $this->db->selectMediosPagos($basicSitio['idListaPago']);
-        $datos["caracteristicas"]  = $this->db->selectListaCaractSitio($basicSitio['idListaCarac']);
-        $datos["comentarios"]  = $this->db->selectListaComentSitio($basicSitio['idListaComent']);
-        */       
+        $basicSitio = (json_encode($basic,true));    
         return $basic;
     }
 
@@ -51,12 +30,8 @@ class Sitio extends Model{
 
     public function getHorario($idSitio){
         $horario = $this->db->selectHorarios($idSitio);
-        $s="";
-        for($i = 0, $size = count($horario); $i < $size; ++$i) {
-            $s= $s + $horario[$i];
-        }
         //$basicUbicacion = json_decode(json_encode($basic), True);
-        return $s;
+        return $horario;
     }
     public function getImagenesSitio($idSitio){
         $Imagenes = $this->db->selectImagenesSitio($idSitio);
@@ -64,8 +39,61 @@ class Sitio extends Model{
         return $Imagenes;
     }
 
+    public function getValoracionSitio($idSitio){
+        $Valoracion = $this->db->selectValoracionSitio($idSitio);
+        //$basicUbicacion = json_decode(json_encode($basic), True);
+        return $Valoracion;
+    }
+    public function getCaractSitio($idSitio){
+        $Caract = $this->db->selectListaCaractSitio($idSitio);
+        $basicCaract = json_encode($Caract);
+        return $basicCaract;
+    }
+
+    public function getPaginacionPlatos($idSitio){
+        $total_rows = 
+        $this->db->getPages($idSitio,"platos");
+        $total_pages = ceil($total_rows / $this->no_of_records_per_page);
+        return $total_pages;
+    }
+
+    public function getPaginacionComentarios($idSitio){
+        //  $offset = ($pagenro-1) * $this->no_of_records_per_page;
+          $total_rows = 
+          $this->db->getPages($idSitio,"comentariositios");
+          $total_pages = ceil($total_rows / $this->no_of_records_per_page);
+          return $total_pages;
+      }
+
+    public function getAllPlatos($idSitio,$page){
+        $offset = ($page-1) * $this->no_of_records_per_page;
+        $Platos = $this->db->selectAllPlatos($idSitio,$offset,$this->n_per_plato);
+        $basicPlatos = json_encode($Platos);
+        return $basicPlatos;
+    }
+    
+    public function getAllComentarios($idSitio,$page){
+        $offset = ($page-1) * $this->no_of_records_per_page;
+        $Comentarios = $this->db->selectAllComentarios($idSitio,$offset,$this->n_per_coment);
+        //$basicComentarios = json_encode($Comentarios);
+        return $Comentarios;
+    }
 
     
+    public function getCategorias(){
+        $Categorias = $this->db->getCategorias();
+        $basicCategorias = json_encode($Categorias);
+        return $basicCategorias;
+    }
+
+
+    public function busqueda(){
+        $Categorias = $this->db->getCategorias();
+        $basicCategorias = json_encode($Categorias);
+        return $basicCategorias;
+    }
+    
+
     
 }
 
