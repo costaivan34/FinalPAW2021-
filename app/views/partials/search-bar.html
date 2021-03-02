@@ -1,17 +1,13 @@
-
+<script src="/public/script/busqueda.js"></script>
 <form class="barra-busqueda" action="/cerca" method="POST">  
   <h3>Encuentra al mejor restaurante para ti</h3>
-      <input class="palabraClave"type="text" placeholder="Palabra Clave" name="clave" required >
-      
-        <select name="categorias" id="categorias" class="selectClave" >
+      <input id="palabraClave"type="text" placeholder="Palabra Clave" name="clave"  >
+        <select name="categorias" id="categorias" class="selectClave" required >
           <option value="0">Selecionar Categoria:</option>
-          
         </select>
-        <select name="provincias" id="provincias" class="selectClave">
+        <select name="provincias" id="provincias" class="selectClave" required>
           <option value="0">Selecionar Ubicación:</option>
-          
         </select>
-
       <button type="submit">BUSCAR</button>
   </form>
 

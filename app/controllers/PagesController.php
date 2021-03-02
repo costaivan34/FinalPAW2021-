@@ -2,14 +2,11 @@
 
 namespace App\Controllers;
 
-class PagesController
-{
+class PagesController{
     /**
      * Show the home page.
-     */
-    
-    public function home()
-    {
+     */    
+    public function home(){
         /*
           if(empty($_SESSION)){
             sin nombre e imagen en el usuario(menu)
@@ -40,17 +37,11 @@ class PagesController
     }
 
     public function restauranteSingle(){
-        $infoBasica['nombre'] = 'La Pepa de Pablo';
-        $infoBasica['ubicacion'] = 'Pellegrini 222';
-        $infoBasica['horario'] = 'L,M,M,J,V - 10Hs-22Hs';
-        $infoBasica['telefono'] = '123456789';
-        $infoBasica['descripcionBreve'] = 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente totam quam voluptatum nulla provident molestiae, adipisci sit. Lorem ipsum dolor sit amet consectetur, adipisicing elit.';
-        $datos['infoBasica'] = $infoBasica;
+       
         return view('/restaurant/restauranteSingle',compact('datos'));
     }
 
-    public function platoSingle()
-    {
+    public function platoSingle(){
         return view('/plato/platoSingle');
     }
 
@@ -63,21 +54,30 @@ class PagesController
             return view('/sitios/NewSitio');
       
     }
-
     
     public function cerca(){
         //funcion busqueda 
         return view('/sitios/NearSitios');
   
-}
-    public function login()
-    {
+    }
+
+    public function login(){
         return view('/login/login');
     }
 
-    public function coming()
-    {
-        return view('coming');
+    /**
+     * Show the Error 404 page.
+     */
+    public function notFound(){
+        return view('/errors/not-found');
     }
 
+    /**
+     * Show the Error 500 page
+     */
+    public function internalError(){
+        return view('/errors/internal-error');
+    }
 }
+
+

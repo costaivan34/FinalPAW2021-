@@ -54,7 +54,7 @@
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 20px 40px;
+  padding: 20px 80.50px;
   transition: 0.3s;
 }
 
@@ -235,29 +235,28 @@ border: 1px solid #E7CF7F;
 }
 
 
-  #mapa {
-    height:100%;
-    width:100%;
-    min-height: 600px;
-    overflow: visible;
-  }
+#mapa {
+  height:100%;
+  width:100%;
+  min-height: 600px;
+  overflow: visible;
+}
 
  
 
-  .fa-ul .caract{
-    align-items: center;
-  }
+.fa-ul .caract{
+  align-items: center;
+}
 
 .fila {
-  
   margin: 0 -5px;
 }
   
-  .fila:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+.fila:after {
+  content: "";
+  display: table;
+  clear: both;
+}
   
 
 .plato {
@@ -265,6 +264,10 @@ border: 1px solid #E7CF7F;
   width: 40%;
   margin: 23px;
   margin-top: 0;
+}
+
+.plato:hover{
+  background-color: #E7CF7F;
 }
 
 .carta {
@@ -281,9 +284,11 @@ border: 1px solid #E7CF7F;
 .carta img{
   box-sizing: border-box;
   background-size: cover;
-  max-width: 287px;
+  max-width: 100%;
   max-height: 200px;
   overflow: hidden;
+  border-top-left-radius: 5%;
+  border-top-right-radius: 5%;
 }
 
 
@@ -293,19 +298,18 @@ border: 1px solid #E7CF7F;
 }
 
 
-.plato-text{
-  border-radius: 3% 3%;
+.plato-text{ 
   padding: 10px;
   margin-top: 10px;
   background-color: #F5F2E9;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
 }
 
 .plates-img{
   height: 20%;
   border-radius:  3% 3%;
 }
-
-
 
 .perfil{
   float: left;
@@ -314,27 +318,20 @@ border: 1px solid #E7CF7F;
   margin-top: 0;
 }
 
-ul.paginacion {
-  border: 1px solid #E7CF7F;
-  display: inline-block;
-  padding: 0;
-  margin: 0;
+.horarios .detalles dt{
+  overflow: visible;
+  text-align: center;
+  
 }
-
-ul.paginacion li {display: inline;}
-
-ul.paginacion li a {
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
+.horarios .detalles dd{
+  overflow: visible;
+  text-align: center;  
 }
 
 
-ul.paginacion li a:hover {
-  color: black;
-  background-color: #F59287;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
+.horarios .detalles {
+  text-align: center;
 }
+
+
+

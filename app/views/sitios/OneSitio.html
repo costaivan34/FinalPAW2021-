@@ -4,9 +4,9 @@
 <link rel="stylesheet" href="/public/css/restauranteSingle.css">
 <link rel="stylesheet" href="/public/css/platoSingle.css">
 <link rel="stylesheet" href="/public/css/comentarios.css">
+<link rel="stylesheet" href="/public/css/paginacion.css">
 <script src="/public/script/carusel.js"></script>
 <script src="/public/script/tabs.js"></script>
-<script src="/public/script/modal.js"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.css'/>
 
@@ -79,36 +79,18 @@
       <div id="Ubicacion" class="tabcontent noactive">
         <div id="mapa"></div>
           <script>
-            var latitud = '{{ datos.Ubicacion[0].x}}';
-            var longitud = '{{ datos.Ubicacion[0].y}}';
-            var sitio = '{{datos.OneSitio[0].idSitio}}';
+            var longitud  = '{{ datos.Ubicacion[0].y}}';
+        var latitud= '{{ datos.Ubicacion[0].x}}';
+        var sitio = '{{datos.OneSitio[0].idSitio}}';
           </script>
         </div>
       <!-- Tab content Platos-->
       <div id="Platos" class="tabcontent noactive">
-        <div class="fila">
-         
-          {% for N in datos.PlatosPag %}
-            <div class="plato">
-              <button onclick="openModal()" id="boton-modal" class="carta">
-                <section>
-                  <img src="{{ N.path }}" alt="Denim Jeans" >
-                </section>
-                <section class="plato-text">
-                  <h3>{{ N.nombre }}</h3>
-                </section>
-              </button>
-            </div>
-          {% endfor %}
-         
+        <div id="fila">
+
         </div>
-        <ul class="paginacion">
-          <li><a href="/resto?Sitio=1&platopage=1" onclick="getplato(1,{{datos.OneSitio[0].idSitio}})">«</a></li>
-          {% for N in 1..datos.PaginacionPlatos %}
-          <li><button onclick="getPlato({{N}},{{datos.OneSitio[0].idSitio}});">{{N}}</button></li>
-          {% endfor %}
-          
-          <li><a href="/resto?Sitio=1&platopage={{datos.PaginacionPlatos}}" onclick="getplato({{datos.PaginacionPlatos}},{{datos.OneSitio[0].idSitio}})">»</a></li>
+        <ul class="paginacion" id="paginacionPlatos">
+       
         </ul>
       </div>
 
@@ -118,7 +100,7 @@
           <ul class="valoracion2">
             <li> 
               <h4>Precio</h4>
-              <p class="clasificacion">
+              <p class="clasificacion1">
                 {% for d in 1..5 %}
                   {% if datos.Valoracion[0].valoracionPrecio  >= d %}
                     <span class="fa fa-star fa-2x checked"></span>      
@@ -130,7 +112,7 @@
             </li>
             <li>
             <h4>Sabor</h4>
-            <p class="clasificacion">
+            <p class="clasificacion1">
               {% for d in 1..5 %}
                   {% if datos.Valoracion[0].valoracionSabor  >= d %}
                     <span class="fa fa-star fa-2x checked"></span>      
@@ -142,7 +124,7 @@
             </li>
             <li>
             <h4>Ambiente</h4>
-            <p class="clasificacion">
+            <p class="clasificacion1">
               {% for d in 1..5 %}
                 {% if datos.Valoracion[0].valoracionAmbiente >= d %}
                  <span class="fa fa-star fa-2x checked"></span>      
@@ -155,108 +137,64 @@
           </ul>
           <section>
             <h3>Comentarios </h3><hr class="separador">
-            <ul class="lista-coment">
-              {% for c in datos.Comentarios %}
-              {% set s =loop.index-1 %}
-                  <li class="comentario">
-                      <img class="coment-img" src="/public/res/team2.jpg" alt="Denim Jeans" >
-                      <h4 class="coment-nombre">{{ datos.Comentarios[s].nombre }}</h4>
-                      <ul class="valoracion">
-                        <li> <h2>Precio</h2>
-                          {% for d in 1..5 %}
-                            {% if datos.Comentarios[s].valoracionPrecio  >= d %}
-                              <span class="fa fa-star checked"></span>
-                            {% else %}
-                              <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% endfor %}    
-                        </li>
-                        <li> <h2>Sabor</h2>
-                          {% for a in 1..5 %}
-                            {% if datos.Comentarios[s].valoracionSabor  >= a %}
-                              <span class="fa fa-star checked"></span>
-                            {% else %}
-                              <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% endfor %}    
-                        </li>
-                        <li> <h2>Ambiente</h2>
-                          {% for b in 1..5 %}
-                            {% if datos.Comentarios[s].valoracionAmbiente  >= b %}
-                              <span class="fa fa-star checked"></span>
-                            {% else %}
-                              <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% endfor %}    
-                        </li>
-                      
-                      </ul>
-                      <p class="coment-text">{{ datos.Comentarios[loop.index-1].descripcion }}</p>
-                  </li>
-              {% endfor %} 
+            <ul id="lista-coment">
+              
             </ul>
-            <ul class="paginacion">
-              <li><a href="/resto?Sitio=1&platopage=1">«</a></li>
-              <li><a  class="active" onclick="getPlato()">1</a></li>
-              <li><a href="/resto?Sitio=1&platopage=2">2</a></li>
-              <li><a href="/resto?Sitio=1&platopage=3">3</a></li>
-              <li><a href="/resto?Sitio=1&platopage=4">4</a></li>
-              <li><a href="/resto?Sitio=1&platopage=5">5</a></li>
-              <li><a onclick="getPlato()">6</a></li>
-              <li><a href="/resto?Sitio=1&platopage=7">7</a></li>
-              <li><a href="/resto?Sitio=1&platopage=7">»</a></li>
+            <ul class="paginacion" id="paginacionComentarios">
+             
             </ul>
         </section>
-        <form method="post" action="/sendComentario" class="deja-comentario">
+        <form method="post" action="sendComentario" class="deja-comentario">
           <h3>¡Deja un comentario!</h3>
-          <input type="text" name="NAME" value="" size="20" maxlength="20" placeholder="Nombre (requerido)" required />     
-          <input type="text" name="EMAIL" value="" size="20" maxlength="20" placeholder="Correo electrónico" />
-          <textarea name="COMMENT" rows="10" cols="50" wrap="soft" placeholder="Máximo 1000 carácteres" maxlength="1000" required></textarea>
+          <textarea id="textoComent" name="COMMENT" rows="10" cols="50" wrap="soft" placeholder="Máximo 1000 carácteres" maxlength="1000" required></textarea>*
+          <input id="nombreComent" type="text" name="NAME" value="" size="20" maxlength="20" placeholder="Nombre (requerido)" required />     *
+          <input id="mailComent" type="text" name="EMAIL" value="" size="20" maxlength="20" placeholder="Correo electrónico" />*
           <ul class="valoracion2">
             <li> <h4>Precio</h4>
-              <p class="clasificacion">
-                <input id="Pradio1" type="radio" name="estrellas" value="5">
-                <label  class="fa fa-star" for="radio2"> </label>
-                <input id="Pradio2" type="radio" name="estrellas" value="4">
-                <label  class="fa fa-star" for="radio2"> </label>
-                <input id="Pradio3" type="radio" name="estrellas" value="3">
-                <label class="fa fa-star" for="radio3"> </label>
-                <input id="Pradio4" type="radio" name="estrellas" value="2">
-                <label class="fa fa-star " for="radio4"> </label>
-                <input id="Pradio5" type="radio" name="estrellas" value="1">
-                <label class="fa fa-star " for="radio5"> </label>
-              </p>
+              <div class="valoracionPrecio clasificacion">
+                <input id="Precio1" type="radio" name="Precio" value="5">*
+                <label for="Precio1">★</label>
+                <input id="Precio2" type="radio" name="Precio" value="4">
+                <label for="Precio2">★</label>
+                <input id="Precio3" type="radio" name="Precio" value="3">
+                <label for="Precio3">★</label>
+                <input id="Precio4" type="radio" name="Precio" value="2">
+                <label for="Precio4">★</label>
+                <input id="Precio5" type="radio" name="Precio" value="1">
+                <label for="Precio5">★</label>
+            </div>
+              
             </li>
             <li> <h4>Sabor</h4>
-              <p class="clasificacion">
-                <input id="Sradio1" type="radio" name="estrellas" value="5">
-                <label class="fa fa-star" for="radio1"> </label>
-                <input id="Sradio2" type="radio" name="estrellas" value="4">
-                <label  class="fa fa-star" for="radio2"> </label>
-                <input id="Sradio3" type="radio" name="estrellas" value="3">
-                <label class="fa fa-star" for="radio3"> </label>
-                <input id="Sradio4" type="radio" name="estrellas" value="2">
-                <label class="fa fa-star " for="radio4"> </label>
-                <input id="Sradio5" type="radio" name="estrellas" value="1">
-                <label class="fa fa-star " for="radio5"> </label>
-              </p>
+              <div class="valoracionSabor clasificacion">
+                <input id="Sabor1" type="radio" name="Sabor" value="5">*
+                <label for="Sabor1">★</label>
+                <input id="Sabor2" type="radio" name="Sabor" value="4">
+                <label for="Sabor2">★</label>
+                <input id="Sabor3" type="radio" name="Sabor" value="3">
+                <label for="Sabor3">★</label>
+                <input id="Sabor4" type="radio" name="Sabor" value="2">
+                <label for="Sabor4">★</label>
+                <input id="Sabor5" type="radio" name="Sabor" value="1">
+                <label for="Sabor5">★</label>
+            </div>
             </li>
             <li><h4>Ambiente</h4>
-              <p class="clasificacion">
-                <input id="Aradio1" type="radio" name="estrellas" value="5">
-                <label class="fa fa-star" for="radio1"> </label>
-                <input id="Aradio2" type="radio" name="estrellas" value="4">
-                <label  class="fa fa-star" for="radio2"> </label>
-                <input id="Aradio3" type="radio" name="estrellas" value="3">
-                <label class="fa fa-star" for="radio3"> </label>
-                <input id="Aradio4" type="radio" name="estrellas" value="2">
-                <label class="fa fa-star " for="radio4"> </label>
-                <input id="Aradio5" type="radio" name="estrellas" value="1">
-                <label class="fa fa-star " for="radio5"> </label>
-              </p>
+              <div class="valoracionAmbiente clasificacion">
+                <input id="Ambiente1" type="radio" name="Ambiente" value="5">*
+                <label for="Ambiente1">★</label>
+                <input id="Ambiente2" type="radio" name="Ambiente" value="4">
+                <label for="Ambiente2">★</label>
+                <input id="Ambiente3" type="radio" name="Ambiente" value="3">
+                <label for="Ambiente3">★</label>
+                <input id="Ambiente4" type="radio" name="Ambiente" value="2">
+                <label for="Ambiente4">★</label>
+                <input id="Ambiente5" type="radio" name="Ambiente" value="1">
+                <label for="Ambiente5">★</label>
+            </div>
             </li>
           </ul>
-          <input type="submit" value="Enviar" name="Enviar" />
+          <input type="button" value="Enviar" name="Enviar" onclick="guardarComentario()" />
         </form>
       </div>
     </div>
@@ -280,7 +218,7 @@
             {% if "tv" in datos.Caract   %}
               <li> <i class=" fa fa-television enable"></i>TV      </li>
               {% endif %}
-            {% if "niños" in datos.Caract %}
+            {% if "juegos" in datos.Caract %}
               <li>  <i class=" fa fa-child enable"></i>Juegos para niños    </li>
             {% endif %}
         </ul>
@@ -302,17 +240,18 @@
 <div id="plato" class="modal-plato" >
   <!-- Modal Content for plato-->
     <div class="modal-content-plate animate">
-      <article class=" infoBasica">
+      <article class=" infoBasica-plato">
         <span onclick="closeModal()" class="closeModal" title="Close Modal">&times;</span>
         <section class="title-plato">
-          <h3></h3>
+          <h3 id="titulo"></h3>
           <hr class="separador">      
         </section>
         <section class="descrip">
-          <img src="/public/res/2.jpg" alt="Denim Jeans" >
+                <img id="imagen-modal"src="/public/res/2.jpg" alt="Denim Jeans" >
                 <h3>Descripcion</h3>
-                  <p id="descripcion"></p>
+                <p id="descripcion"></p>
         </section>    
+        <section class="secciion">
         <section class="infonut">
             <h3>Informacion Nutricional</h3><hr class="separador">
             <dl class="caracteristicas">
@@ -334,15 +273,15 @@
         <section class="contiene">
           <h3>Contiene</h3><hr class="separador">
             <ul class="datos">
-                <li><img src="/public/svg/leche.svg" alt="Lacteos" ></li>
-                <li><img src="/public/svg/gluten.svg" alt="Gluten" ></li>
-                <li><img src="/public/svg/chile.svg" alt="Picante" ></li>
-                <li><img src="/public/svg/tomate.svg" alt="Vegano" ></li>
-                <li><img src="/public/svg/sugar.svg" alt="Azucar" ></li>
-                <li><img src="/public/svg/dietetico.svg" alt="Sal" ></li>
+                <li><img id="Lacteos" src="/public/svg/leche (1).svg" alt="Lacteos" ></li>
+                <li><img id="Gluten"src="/public/svg/gluten (1).svg" alt="Gluten" ></li>
+                <li><img id="Picante"src="/public/svg/chile (1).svg" alt="Picante" ></li>
+                <li><img id="Vegano"src="/public/svg/tomate (1).svg" alt="Vegano" ></li>
+                <li><img id="Azucar"src="/public/svg/sugar (1).svg" alt="Azucar" ></li>
+                <li><img id="Sal" src="/public/svg/dietetico (1).svg" alt="Sal" ></li>
             </ul>
-      </section>    
-        
+      </section> 
+     </section>
       </article>
     </div>
 </div>

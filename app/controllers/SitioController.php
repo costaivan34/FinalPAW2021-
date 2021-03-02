@@ -20,14 +20,19 @@ class SitioController extends Controller{
     return view('restauranteSingle',compact('datos'));
    }
    
-   public function sendComentario(){
-       $nombre = htmlspecialchars($_POST['NAME']);
-       $mail = htmlspecialchars($_POST['EMAIL']);
-       $texto = htmlspecialchars($_POST['COMMENT']);
-       $vPrecio = htmlspecialchars($_POST['COMMENT']);
-       $vAmbiente = htmlspecialchars($_POST['COMMENT']);
-       $vsabor = htmlspecialchars($_POST['COMMENT']); 
-       $this->getOne();
+   public function sendComentario(){	
+    $comentario = [ 
+        'idSitio' => $_POST['sitio'],
+        'nombre' => $_POST['nombre'],
+        'mail' => $_POST['mail'],
+        'descripcion' => $_POST['texto'],
+        'valoracionSabor' => $_POST['precio'],
+        'valoracionPrecio' => $_POST['sabor'],
+        'valoracionAmbiente' => $_POST['ambiente']
+    ];
+     $this->model->agregarComentario($comentario);
+    
+    return $this->model->getPaginacionComentarios($_POST['sitio']);
    }
 
     public function getOne(){
@@ -41,35 +46,48 @@ class SitioController extends Controller{
         //$datos['Comentarios'] = $this->model->getComentariosSitio($idSitio);
         //$datos['PaginacionPlatos'] =  $this->model->getPaginacionPlatos($idSitio);
         //$datos['PlatosPag1'] =  $this->model->getAllPlatos($idSitio,1);
-       var_dump($datos );
+       //var_dump($datos['Caract']);
         return view('/sitios/OneSitio',compact('datos'));
     }
 
-    public function getPlatoPageN(){
+    public function getPlatos(){
         $idSitio = htmlspecialchars($_GET['Sitio']);
-        $pageN = htmlspecialchars($_GET['platopage']);
-        $datos['PaginacionPlatos'] =  $this->model->getPaginacionPlatos($idSitio);
-        $datos['PlatosPag'] =  $this->model->getAllPlatos($idSitio,$pageN);
-        //var_dump($datos);
-        return $datos;
+        $pageN = htmlspecialchars($_GET['page']);
+        $PlatosPag =  $this->model->getAllPlatos($idSitio,$pageN);
+        return $PlatosPag;
     }
 
-    public function getComentarioPageN(){
+    public function getComentarios(){
         $idSitio = htmlspecialchars($_GET['Sitio']);
-        $pageN = htmlspecialchars($_GET['comentarioPage']);
-        $datos['PaginacionComentarios'] =  $this->model->getPaginacionComentarios($idSitio);
-        $datos['ComentarioPag'] =  $this->model->getAllComentarios($idSitio,$pageN);
-        //var_dump($datos);
-        return $datos;
+        $pageN = htmlspecialchars($_GET['page']);
+        $Comentarios=  $this->model->getAllComentarios($idSitio,$pageN);
+      // var_dump($Comentarios);
+        return $Comentarios;
     }
+
+    public function getPlatoPage(){
+        $idSitio = htmlspecialchars($_GET['Sitio']);
+        $PaginacionPlatos =  $this->model->getPaginacionPlatos($idSitio);
+        //var_dump($datos);
+        return $PaginacionPlatos;
+    }
+
+
+    public function getComentarioPage(){
+        $idSitio = htmlspecialchars($_GET['Sitio']);
+        $pageN = htmlspecialchars($_GET['page']);
+        $PaginacionComentarios =  $this->model->getPaginacionComentarios($idSitio);
+        return $PaginacionComentarios;
+    }
+
 
     public function index(){
-     $todosSitios = $this->model->getAll(); 
-        $datos['todosSitios'] = $todosSitios;
-    /*    $datos["userLogueado"] = $_SESSION['user'];*/
-        return view('/restaurant/restauranteTodos', compact('datos'));
+        $Destacados = $this->model->getDestacados(); 
+        $datos['Destacados'] = $Destacados;
+       var_dump($datos);
+      //  var_dump($Destacados);
+        return view('/home/index', compact('datos'));
     }
-
 
     public function getCategorias(){
         $datos['categorias'] =  $this->model->getCategorias();
@@ -77,13 +95,64 @@ class SitioController extends Controller{
         return  $this->model->getCategorias();
     }
     
-    public function cerca(){
-        $palabra = htmlspecialchars($_POST["clave"]);
-        $categoria = htmlspecialchars($_POST["categorias"]);
-        $ubicacion = htmlspecialchars($_POST["provincias"]);
-        // $datos["consulta"] = $this->model->busqueda($clave,$categoria,$ubicacion);
-        //var_dump($categoria);
-        return view('/sitios/NearSitios', compact('datos'));
+    public function getRealIP() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))
+            return $_SERVER['HTTP_CLIENT_IP'];
+           
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        return $_SERVER['REMOTE_ADDR'];
     }
-   
+
+    public function cerca(){
+        $ip = $this->getRealIP();
+        $ip = '190.50.95.168';
+        //$ip = '108.62.211.172';
+        $informacionSolicitud = file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip);
+        $dataSolicitud = json_decode($informacionSolicitud);
+        $datos["latitud"] = $dataSolicitud->geoplugin_latitude;
+        $datos["longitud"] = $dataSolicitud->geoplugin_longitude;
+        $datos["latitud"] =-35.0007752 ;
+        $datos["longitud"] =-59.276512 ;
+        $datos["ciudad"]= $dataSolicitud->geoplugin_city;
+        $datos["region"]= $dataSolicitud->geoplugin_region;
+        $data = json_encode( $datos, JSON_FORCE_OBJECT);
+        var_dump( $data);
+        return view('/sitios/NearSitios', compact('data'));
+    }
+
+
+    public function getMarcadores(){
+        $Ciudad = htmlspecialchars($_GET['Ciudad']);
+        $Provincia = htmlspecialchars($_GET['Provincia']);
+        //var_dump( $this->model->getMarcadores($Ciudad,$Provincia));
+        return $this->model->getMarcadores($Ciudad,$Provincia);
+    }
+    
+
+    public function buscar(){
+        if(isset($_GET['Clave'])){
+            $Clave =htmlspecialchars ($_GET['Clave']);
+            
+        }else{
+            $Clave=" ";
+        }
+        $Pagina   =  htmlspecialchars($_GET['Pagina']);
+        $Provincia =  (htmlspecialchars($_GET['Provincia']));
+        $Categoria =  (htmlspecialchars($_GET['Categoria']));
+        $Paginacion = $this->model->getPaginacionBuscame($Clave,$Provincia,$Categoria);
+        $AllSitios = $this->model->buscame($Clave,$Provincia,$Categoria,$Pagina);
+        $Datos['Paginacion'] =$Paginacion;
+        $Datos['AllSitios'] =$AllSitios;
+        $data = json_encode( $Datos, JSON_FORCE_OBJECT);
+        return  $data;
+        
+    }
+
+    public function buscador(){
+        return view('/sitios/SearchSitio');
+        
+        
+    }
+    
 }

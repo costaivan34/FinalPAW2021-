@@ -8,11 +8,13 @@
 <link rel="stylesheet" href="/public/css/near-sitios.css">
 
 <script src="/public/script/mapa.js"></script>
-<script src="/public/script/modal.js"></script>
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.js'></script>
-<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/v2.1.0/mapbox-gl.css'/>
+
+
+
+   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 {% endblock %}
-{% block title %}{{ datos.OneSitio[0].nombre }}{% endblock %}
+{% block title %}Lugares cerca de mi{% endblock %}
 {% block header %}
  
 {% endblock %}
@@ -21,108 +23,17 @@
 
 <!-- search  module-->
 <div >
-<section id="search">
-    {{ include('partials/search-bar.html') }}
-</section>
 <section id="resultado-mapa">
-  <div class="row1">
-    <div class="column" >
-      <div class="mapa">
-       <script>
-            var latitud = '1';
-            var longitud = '1';
-            
-          </script>
-      </div>
-    </div>
-    <div class="column" >
-      <section id="resultados">
-        <div class="fila">
-          <div class="columna">
-              <div class="tarjeta">
-                <div>
-                  <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
-                </div>
-                <div class="plates-text" >
-                  <a href="/resto?idSitio=1"><h3>Card 2</h3></a>
-                  <p>Some text</p>
-                  <p>Some text</p>
-                </div>
-              </div>
-          </div>
-          <div class="columna">
-              <div class="tarjeta">
-                <div>
-                  <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
-                </div>
-                <div class="plates-text">
-                  <a href="https://example.com"><h3>Card 2</h3></a>
-                  <p>Some text</p>
-                  <p>Some text</p>
-                </div>
-              </div>
-          </div>
-        </div>
-
-        <div class="fila">
-          <div class="columna">
-              <div class="tarjeta">
-                <div>
-                  <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
-                </div>
-                <div class="plates-text" >
-                  <a href="/resto?idSitio=1"><h3>Card 2</h3></a>
-                  <p>Some text</p>
-                  <p>Some text</p>
-                </div>
-              </div>
-          </div>
-          <div class="columna">
-              <div class="tarjeta">
-                <div>
-                  <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
-                </div>
-                <div class="plates-text">
-                  <a href="https://example.com"><h3>Card 2</h3></a>
-                  <p>Some text</p>
-                  <p>Some text</p>
-                </div>
-              </div>
-          </div>
-        </div>
-
-        <div class="fila">
-          <div class="columna">
-              <div class="tarjeta">
-                <div>
-                  <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
-                </div>
-                <div class="plates-text" >
-                  <a href="/resto?idSitio=1"><h3>Card 2</h3></a>
-                  <p>Some text</p>
-                  <p>Some text</p>
-                </div>
-              </div>
-          </div>
-          <div class="columna">
-              <div class="tarjeta">
-                <div>
-                  <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
-                </div>
-                <div class="plates-text">
-                  <a href="https://example.com"><h3>Card 2</h3></a>
-                  <p>Some text</p>
-                  <p>Some text</p>
-                </div>
-              </div>
-          </div>
-        </div>
+  <div id="mapa">
+    <script>
      
-      </section>
-    </div>
+      var datos  = '{{ data}}';
+            
+    </script>
   </div>
 </section>
 
+</div>
 {% block footer %}
 {% endblock %}
 {% endblock %}

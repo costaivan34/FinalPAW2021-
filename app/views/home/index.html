@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/public/css/search-bar.css">
     <link rel="stylesheet" href="/public/css/resultados.css">
     <script src="/public/script/carusel.js"></script>
+   
 {% endblock %}
 
 {% block main %}
@@ -21,15 +22,24 @@
     <!-- Full-width images with number and caption text -->
     <div class="mySlides fade">
       <div class="numbertext"></div>
-      <img src="public/res/place.jpg" >
-    </div>
-    <div class="mySlides fade">
-      <div class="numbertext"></div>
       <img src="public/res/home-banner-1.jpg" >
     </div>
     <div class="mySlides fade">
       <div class="numbertext"></div>
-      <img src="public/res/home-banner-1.jpg" >
+      <img src="public/res/home-banner-2.jpg" >
+    </div>
+
+    <div class="mySlides fade">
+      <div class="numbertext"></div>
+      <img src="public/res/home-banner-4.jpg" >
+    </div>
+    <div class="mySlides fade">
+      <div class="numbertext"></div>
+      <img src="public/res/home-banner-5.jpg" >
+    </div>
+    <div class="mySlides fade">
+      <div class="numbertext"></div>
+      <img src="public/res/home-banner-6.jpg" >
     </div>
     <!-- Next and previous buttons -->
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -45,54 +55,22 @@
 <div class="slideshow-places">
   <h3> Restaurantes Destacados</h3>
   <div class="fila">
+
+    {% for a in datos.Destacados %}
     <div class="columna">
       <div class="tarjeta">
         <div>
-          <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
+          <img src="{{ a.path }}" alt="Denim Jeans">
         </div>
         <div class="plates-text" >
-          <a href="/resto?Sitio=1"><h3>Card 2</h3></a>
-          <p>Some text</p>
-          <p>Some text</p>
+          <br>
+          <a href="/resto?Sitio={{ a.idSitio }}"><h3>{{ a.nombre }}</h3></a>
+          <p><i class=" fa fa-map-marker  "></i> {{ a.ciudad }},{{ a.provincia }}</p>
+          <p><i class=" fa fa-commenting  "></i> {{ a.Ncomentarios }}</p>
         </div>
       </div>
     </div>
-    <div class="columna">
-      <div class="tarjeta">
-        <div>
-          <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
-        </div>
-        <div class="plates-text">
-          <a href="https://example.com"><h3>Card 2</h3></a>
-          <p>Some text</p>
-          <p>Some text</p>
-        </div>
-      </div>
-    </div>
-    <div class="columna">
-      <div class="tarjeta">
-        <div>
-          <img src="/public/res/jeans3.jpg" alt="Denim Jeans">
-        </div>
-        <div class="plates-text">
-          <a href="https://example.com"><h3>Card 2</h3></a>
-          <p>Some text</p>
-          <p>Some text</p>
-        </div>
-      </div>
-    </div>
-    <div class="columna">
-      <div class="tarjeta">
-        <div>
-          <img src="/public/res/jeans3.jpg" alt="Denim Jeans" >
-        </div>
-        <div class="plates-text">
-          <a href="https://example.com"><h3>Card 2</h3></a>
-          <p>Some text</p>
-          <p>Some text</p>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
 
   </div>
   

@@ -69,7 +69,7 @@ class QueryBuilder{
      * Limpia guiones - que puedan venir en los nombre de los parametros
      * ya que esto no funciona con PDO
      *
-     * Ver: http://php.net/manual/en/pdo.prepared-statements.php#97162
+     * Ver: http://php.net/manual/en/pdo.prepared-statemensssts.php#97162
      */
     private function cleanParameterName($parameters){
         $cleaned_params = [];
@@ -89,21 +89,10 @@ class QueryBuilder{
         return $statement;
     }
 
-/**
- * 
- * 
- * INICIO DE CONSULTAS PARA SITIO
- * 
- */
+   
 
- //recuperar listado de todos los sitios
-public function selectAllSitios(){ 
-  /*  $statement = $this->pdo->prepare("SELECT `nombre`,`telefono`,`valoracionPrecio`,
-    `valoracionAmbiente`, `valoracionServicio`,`idUbicacion` FROM sitio ");*/
-    $statement = $this->pdo->prepare("SELECT idsitio, nombre, descripcion FROM sitios ");
-   $statement->execute();
-   return $statement->fetchAll(PDO::FETCH_CLASS);
-}
+
+
 
 public function selectSitio($idSitio){
     /*
@@ -145,6 +134,7 @@ public function selectListaCaractSitio($idSitio){
          INNER JOIN caracteristicasitio cs  ON  lcs.idCaract = cs.idCaracteristica 
          WHERE lcs.idSitio = $idSitio");
     $statement->execute();
+    
     return $statement->fetchAll(PDO::FETCH_CLASS );
 }
 
@@ -176,8 +166,9 @@ public function selectAllComentarios($idSitio,$offset,$per_page){
 public function selectAllPlatos($idSitio,$offset, $per_page){ 
     //$statement = $this->pdo->prepare(" SELECT p.idPlato, p.nombre, p.precio, ip.path FROM platos p 
     //INNER JOIN imagenesplatos ip on p.idPlato=ip.idPlato WHERE p.idSitio=$idSitio LIMIT $offset, $per_page" );
-     $statement = $this->pdo->prepare(" SELECT p.idPlato, p.nombre, p.precio FROM platos p 
-      WHERE p.idSitio=$idSitio LIMIT $offset, $per_page" );
+     $statement = $this->pdo->prepare(" SELECT p.idPlato, p.nombre, p.precio, ip.path FROM platos p 
+     INNER JOIN imagenesplatos ip ON p.idPlato= ip.idPlato 
+      WHERE p.idSitio=$idSitio ORDER BY p.idPlato  LIMIT $offset, $per_page" );
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
@@ -189,6 +180,13 @@ public function getPages($idSitio,$tabla){
     return $total_pages_sql->fetchColumn();
 }
 
+public function getPagesAllSitios(){ 
+    $total_pages_sql =  $this->pdo->prepare("SELECT count(*)  FROM sitios s " );
+    $total_pages_sql->execute();
+    return $total_pages_sql->fetchColumn();
+}
+
+
 public function getCategorias(){ 
     $statement =  $this->pdo->prepare("SELECT * 
     FROM categorias" );
@@ -196,35 +194,19 @@ public function getCategorias(){
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
 
-/**
- *
- *  FIN DE CONSULTAS RECUPERAR SITIO
- *
- */
-
- /**
- * 
- * 
- * FIN DE CONSULTAS PARA SITIO
- * 
- */
-
-/**
- * 
- * 
- * INICIO DE CONSULTAS PARA PLATO
- * 
- */
-//recuperar listado de todos los platos
+public function selectImagenPlato($idPlato){
+    $statement = $this->pdo->prepare
+    ("SELECT p.path
+     FROM imagenesplatos p WHERE p.idPlato = $idPlato ");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
 
 
-
-
-//recuperar plato 
-//ListaImagenes
 public function selectPlato($idSitio,$idPlato){ 
-    $statement = $this->pdo->prepare("SELECT nombre,descripcion,precio
-     FROM platos WHERE idPlato= $idPlato and idSitio=$idSitio");
+    $statement = $this->pdo->prepare
+    ("SELECT p.nombre, p.descripcion, p.precio
+     FROM platos p WHERE p.idPlato = $idPlato and p.idSitio = $idSitio");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
@@ -241,19 +223,147 @@ public function selectListaInfo($idListaInfo){
 }
 
 //recuperar ListaCaract de plato X
-public function selectListaCaract($idListaCarac){ 
-    $statement = $this->pdo->prepare("SELECT cp.nombre,cp.descripcion FROM listacaractplato lcp 
-         INNER JOIN caracteristicaplato cp  ON  lpc.idListaCaract = cp.idCaracteristica 
-         WHERE lpc.idListaCaract = $$idListaCarac");
+public function selectListaCaract($idPlato){
+    $statement = $this->pdo->prepare("SELECT cs.nombre FROM listacaractplato lcs 
+    INNER JOIN caracteristicaplato cs  ON  lcs.idCaract = cs.idCaracteristica 
+    WHERE lcs.idPlato = $idPlato");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
 
-/**
- * 
- * 
- * FIN DE CONSULTAS PARA PLATO
- * 
- */
+//recuperar ListaCaract de plato X
+public function selectInfo($idPlato){ 
+    $statement = $this->pdo->prepare("SELECT i.nombre,v.valor FROM valornutricional v 
+    INNER JOIN infonutricional i  ON  i.idInfo = v.idInfo 
+    WHERE v.idPlato = $idPlato");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+public function selectDestacados(){ 
+    $statement = $this->pdo->prepare("SELECT  s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    RIGHT JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    GROUP BY idSitio  LIMIT 0, 9");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+public function selectCerca($Ciudad,$Provincia){ 
+    $statement = $this->pdo->prepare("SELECT s.idSitio, s.nombre, s.descripcion, s.idCategoria, u.X, u.Y 
+    FROM sitios s INNER JOIN ubicacion u ON u.idSitio = s.idSitio 
+    WHERE u.ciudad = $Ciudad AND u.provincia = $Provincia");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+
+
+public function selectSitioBuscar($Clave,$Provincia,$Categoria,$offset,$per_page){    
+    $statement = $this->pdo->prepare("SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia =$Provincia AND idCategoria=$Categoria
+    GROUP BY idSitio
+    LIMIT $offset, $per_page");
+     $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+
+public function selectSitioBuscarProvincia($Clave,$Provincia,$offset,$per_page){
+    $statement = $this->pdo->prepare("SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia =$Provincia
+    GROUP BY idSitio 
+    LIMIT $offset, $per_page");
+     $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+public function selectSitioBuscarCategoria($Clave,$Categoria,$offset,$per_page){
+    $statement = $this->pdo->prepare("SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%')  AND idCategoria=$Categoria
+    GROUP BY idSitio
+    LIMIT $offset, $per_page");
+     $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+ //recuperar listado de todos los sitios
+ public function selectSitioBuscarAllSitios($Clave,$offset,$per_page){ 
+    $statement = $this->pdo->prepare("SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    RIGHT JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%')
+    GROUP BY idSitio 
+    LIMIT $offset, $per_page");
+   $statement->execute();
+   return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
+
+
+//-----------------------------------------------------------------------------------------------
+
+
+
+public function PAGselectSitioBuscar($Clave,$Provincia,$Categoria){    
+    $statement = $this->pdo->prepare("SELECT count(*) as cantidad FROM (SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT ('%','$Clave','%') AND u.provincia =$Provincia AND idCategoria=$Categoria
+    GROUP BY idSitio
+    ) AS Pasd"); 
+      $statement->execute();
+      return $statement->fetchColumn();
+}
+
+
+public function PAGselectSitioBuscarProvincia($Clave,$Provincia){
+    $statement = $this->pdo->prepare("SELECT count(*) as cantidad FROM (SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    GROUP BY idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia =$Provincia ) AS Pasd
+    ");
+    $statement->execute();
+    return $statement->fetchColumn();
+}
+
+public function PAGselectSitioBuscarCategoria($Clave,$Categoria){
+    $statement = $this->pdo->prepare("SELECT count(*) as cantidad FROM (SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%')  AND idCategoria=$Categoria GROUP BY idSitio) AS Pasd
+    ");
+    $statement->execute();
+    return $statement->fetchColumn();
+}
+
+ //recuperar listado de todos los sitios
+ public function PAGselectSitioBuscarAllSitios($Clave){ 
+    $statement = $this->pdo->prepare("SELECT count(*) as cantidad FROM (SELECT s.idSitio,s.nombre,u.ciudad, u.provincia,count(idComentario)
+    as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
+    INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
+    RIGHT JOIN imagenessitios i ON  s.idSitio = i.idSitio
+    WHERE s.nombre like CONCAT('%','$Clave','%')
+    GROUP BY idSitio 
+    ) AS Pasd");
+    $statement->execute();
+    return $statement->fetchColumn();
+}
+
 
 }

@@ -30,8 +30,6 @@ window.addEventListener("DOMContentLoaded", function () {
   }
   
   
-  
-  
   var slideIndex = 0;
   showSlides();
   
