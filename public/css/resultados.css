@@ -1,13 +1,14 @@
 /* Float four columns side by side */
 .columna {
-  display: table;
+  
   width: 22%;
   padding: 0 10px;
   margin-bottom: 2%;
 }
 
 /* Remove extra left and right margins, due to padding in columns */
-.fila {margin: 0 -5px;}
+.fila {margin: 0 -5px;
+ }
 
 /* Clear floats after the columns */
 .fila:after {
@@ -19,6 +20,7 @@
 
 /* Style the counter cards */
 .tarjeta {
+  
   margin-right: 4%;
   box-shadow: 0 4px 8px 0 rgba(245, 146, 135, 0.8); /* this adds the "card" effect */
   padding: 20px;
@@ -39,7 +41,6 @@
   margin-left: 2.50%;
   margin-top: 5%;
   border: 2px solid #E7CF7F;
-  height: 80%;
   width: 81%;
  
   }

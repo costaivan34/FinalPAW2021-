@@ -2,7 +2,14 @@
 window.addEventListener("DOMContentLoaded", function () {
   getProvincias();
   getCategorias();
-  buscadorBuscame('',0,0,1);
+  datos= datos.replaceAll('&quot;', '');
+  datos= datos.replaceAll('{', '{"');
+  datos= datos.replaceAll(',', '","');
+  datos= datos.replaceAll(':', '":"');
+  datos= datos.replaceAll('}', '"}');
+ var respuesta =JSON.parse( datos );
+ console.log(respuesta);
+  buscadorBuscame(respuesta.clave,respuesta.categoria,respuesta.provincia,1);
 });
 
 function getDatos(){
@@ -10,6 +17,7 @@ function getDatos(){
   categoria = document.getElementById("categorias").value;
   provincia = document.getElementById("provincias").value;
   pagina =1;
+ // console.log(provincia);
   buscadorBuscame(clave,categoria,provincia,pagina);
 }
 
@@ -88,13 +96,13 @@ function getProvincias(){
         elemento.removeChild(elemento.firstChild);
       }
       opcion = document.createElement("option");
-      opcion.value=0;       
+      opcion.value='TODAS';       
       opcion.text="Selecionar Ubicación:";                                   
       document.getElementById("provincias").appendChild(opcion);
       opcion1 = document.createElement("option");          
       for (provincia of respuesta.provincias) {
         opcion = document.createElement("option");
-        opcion.value=provincia.id;       
+        opcion.value=provincia.nombre;       
         opcion.text=provincia.nombre;                                   
         document.getElementById("provincias").appendChild(opcion);
       }
@@ -108,10 +116,7 @@ function getProvincias(){
 }
 
 function agregarSitioPaginacion(respuesta,clave,categoria,provincia,pagina){
-  var elemento  = document.getElementById("paginacionPlatos");
-  while (elemento.firstChild) {
-    elemento.removeChild(elemento.firstChild);
-  }
+  
   clave2='" '+clave+'"';
    var ElementoPagina = document.createElement("li");
    ElementoPagina.innerHTML = "<input type='button' id='inicio' onclick='buscadorBuscame("+clave2+","+categoria+","+provincia+","+1+")' value='<<'>";
@@ -175,13 +180,10 @@ function agregarSitio(respuesta){
 
 }
 
-
-
-
-
 function buscadorBuscame(clave,categoria,provincia,pagina){
   var xmlHttpRequest=new XMLHttpRequest();
   var elemento  = document.getElementById("fila");
+  var elemento2  = document.getElementById("paginacionPlatos");
   var pR=document.createElement("p");
   pR.className="error";
   var textNode2 = document.createTextNode("----------------No hay resultados---------------- ");
@@ -189,12 +191,16 @@ function buscadorBuscame(clave,categoria,provincia,pagina){
   while (elemento.firstChild) {
     elemento.removeChild(elemento.firstChild);
   }
+  
+  while (elemento2.firstChild) {
+    elemento2.removeChild(elemento2.firstChild);
+  }
 	xmlHttpRequest.onreadystatechange=function() {
 		if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200) {
       
-        console.log( xmlHttpRequest.responseText); 
+        //console.log( xmlHttpRequest.responseText); 
         var respuesta =JSON.parse( xmlHttpRequest.responseText );
-        console.log( respuesta.AllSitios);
+     //   console.log( respuesta.AllSitios);
       if(respuesta.Paginacion=="0"){
         elemento.appendChild(pR);
       }else{
@@ -210,7 +216,7 @@ function buscadorBuscame(clave,categoria,provincia,pagina){
     }
 	}
   xmlHttpRequest.open("GET","buscar?Clave="+clave+"&Provincia="+provincia+"&Categoria="+categoria+"&Pagina="+pagina,true);
-  console.log("buscar?Clave="+clave+"&Provincia="+provincia+"&Categoria="+categoria+"&Pagina="+pagina);
+  //console.log("buscar?Clave="+clave+"&Provincia='"+provincia+"'&Categoria="+categoria+"&Pagina="+pagina);
 	xmlHttpRequest.send();
 	event.preventDefault();
 }

@@ -1,8 +1,12 @@
  <?php
 
     $router->get('', 'SitioController@index');
-    $router->get('contacto', 'PagesController@contact');
-    $router->post('login', 'LoginController@validarLogin');
+    $router->get('contacto', 'PagesController@contacto');
+    $router->post('sendConsulta', 'SitioController@sendConsulta');
+    $router->post('login', 'UsersController@validarLogin');
+
+    $router->get('dashboard', 'PagesController@dash');
+
     $router->get('resto', 'SitioController@getOne');
     $router->get('resto/new', 'PagesController@newOne');
     $router->get('platos', 'SitioController@getPlatos');
@@ -10,7 +14,7 @@
     $router->get('platosPaginacion', 'SitioController@getPlatoPage');
     $router->get('categorias', 'SitioController@getCategorias');
     $router->get('cerca', 'SitioController@cerca');
-    $router->post('marcadores', 'SitioController@getMarcadores');
+    $router->get('marcadores', 'SitioController@getMarcadores');
     $router->get('currentPosition', 'SitioController@currentPosition');
 
     $router->get('buscador', 'SitioController@buscador');

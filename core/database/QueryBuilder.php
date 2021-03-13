@@ -251,9 +251,9 @@ public function selectDestacados(){
 }
 
 public function selectCerca($Ciudad,$Provincia){ 
-    $statement = $this->pdo->prepare("SELECT s.idSitio, s.nombre, s.descripcion, s.idCategoria, u.X, u.Y 
+    $statement = $this->pdo->prepare("SELECT s.idSitio, s.nombre, s.idCategoria, u.X, u.Y 
     FROM sitios s INNER JOIN ubicacion u ON u.idSitio = s.idSitio 
-    WHERE u.ciudad = $Ciudad AND u.provincia = $Provincia");
+    WHERE u.ciudad like CONCAT('%','$Ciudad','%') AND u.provincia like CONCAT('%','$Provincia','%') ");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
@@ -265,7 +265,7 @@ public function selectSitioBuscar($Clave,$Provincia,$Categoria,$offset,$per_page
     as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
     INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
     INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
-    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia =$Provincia AND idCategoria=$Categoria
+    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia like CONCAT('%','$Provincia','%') AND idCategoria=$Categoria
     GROUP BY idSitio
     LIMIT $offset, $per_page");
      $statement->execute();
@@ -278,7 +278,7 @@ public function selectSitioBuscarProvincia($Clave,$Provincia,$offset,$per_page){
     as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
     INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
     INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
-    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia =$Provincia
+    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia like CONCAT('%','$Provincia','%')
     GROUP BY idSitio 
     LIMIT $offset, $per_page");
      $statement->execute();
@@ -321,7 +321,7 @@ public function PAGselectSitioBuscar($Clave,$Provincia,$Categoria){
     as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
     INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
     INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
-    WHERE s.nombre like CONCAT ('%','$Clave','%') AND u.provincia =$Provincia AND idCategoria=$Categoria
+    WHERE s.nombre like CONCAT ('%','$Clave','%') AND u.provincia like CONCAT('%','$Provincia','%') AND idCategoria=$Categoria
     GROUP BY idSitio
     ) AS Pasd"); 
       $statement->execute();
@@ -334,9 +334,8 @@ public function PAGselectSitioBuscarProvincia($Clave,$Provincia){
     as Ncomentarios, i.path FROM sitios s INNER JOIN comentariositios cs ON  s.idSitio = cs.idSitio
     INNER JOIN ubicacion u  ON  s.idSitio = u.idSitio
     INNER JOIN imagenessitios i ON  s.idSitio = i.idSitio
-    GROUP BY idSitio
-    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia =$Provincia ) AS Pasd
-    ");
+    WHERE s.nombre like CONCAT('%','$Clave','%') AND u.provincia like CONCAT('%','$Provincia','%') 
+    GROUP BY idSitio) AS Pasd");
     $statement->execute();
     return $statement->fetchColumn();
 }

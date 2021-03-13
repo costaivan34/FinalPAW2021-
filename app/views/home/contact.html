@@ -7,6 +7,7 @@
     {{ parent() }}
     <meta name="keywords" content="PAW,2018,Templates,PHP">
     <link rel="stylesheet" href="/public/css/contact.css">
+    <script src='/public/script/enviarconsulta.js'></script>
 {% endblock %}
 
 {% block main %}
@@ -15,6 +16,7 @@
 
 
 <div class="contenido">
+ 
     <div class="titulo">
       <h1>¿Tienes Alguna Consulta?  </h1>
       <p>Comunicate con nosotros</p>
@@ -24,7 +26,7 @@
         <img src="/public/res/contacto.png" >
       </div>
       <div class="column">
-        <form action="/action_page.php">
+        <form >
           <label for="fname">Nombre*</label>
           <input type="text" id="fname" name="firstname" placeholder="Nombre" required  >
           <label for="aname">Apellido*</label>
@@ -34,7 +36,8 @@
          
           <label for="subject">Mensaje*</label>
           <textarea id="subject" name="subject" placeholder="Escriba algo" style="height:170px" required ></textarea>
-          <input type="submit" value="Submit">
+          <input type="button" value="Enviar" onclick="guardarConsulta();">
+          <div id="mensaje"></div>
         </form>
       </div>
     </div>

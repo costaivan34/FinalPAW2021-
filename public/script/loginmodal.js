@@ -16,20 +16,31 @@ function callLogin(){
 		if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200) {
 			var response = xmlHttpRequest.responseText;
 			if(xmlHttpRequest.responseText == 1) {
-				var welcome_message = '<p class="welcome-message">Welcome, You have successfully loggedin!</p>';
-				document.getElementById("container").innerHTML = welcome_message;
+				const mensaje = document.getElementById("messageBoxId");
+				mensaje.innerHTML = `<div class="alert alert-success" role="alert">
+				Bienvenido!</div>`; 
+				setTimeout(function(){ mensaje.innerHTML = "" }, 2500);
 			} else {
-				document.getElementById("messageBoxId").innerHTML="Invalid Credentials";
-				document.getElementById("messageBoxId").className="error-message";
+				const mensaje = document.getElementById("messageBoxId");
+      	mensaje.innerHTML = `<div class="alert alert-danger" role="alert">
+      	El nombre de usuario y la contraseña que ingresaste no coinciden con nuestros registros. Por favor, revisa e inténtalo de nuevo.
+    		</div>`;
+				setTimeout(function(){ mensaje.innerHTML = "" }, 2500);
 			}
 		}else{
-			document.getElementById("messageBoxId").innerHTML="Invalid Credentials";
-			document.getElementById("messageBoxId").className="error-message";
+			const mensaje = document.getElementById("messageBoxId");
+      	mensaje.innerHTML = `<div class="alert alert-danger" role="alert">
+      	El nombre de usuario y la contraseña que ingresaste no coinciden con nuestros registros. Por favor, revisa e inténtalo de nuevo.
+    		</div>`;
+				setTimeout(function(){ mensaje.innerHTML = "" }, 2500);
 		}
 	}
-	xmlHttpRequest.open("POST","login",true);
-	xmlHttpRequest.send();
 
-	event.preventDefault(); 
+	var mail = document.getElementById("userName").value;
+var psw = document.getElementById("password").value;
+xmlHttpRequest.open("POST","login",true);
+xmlHttpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlHttpRequest.send("userName="+mail+"&password="+psw);
+event.preventDefault();
 }
 

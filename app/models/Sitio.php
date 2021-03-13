@@ -143,45 +143,37 @@ class Sitio extends Model{
 
     public function buscame($Clave,$Provincia,$Categoria,$page){
         $offset = ($page-1) * $this->n_per_plato;
-        if( $Provincia==0){
-            if( $Categoria==0){
-                //buscar provincia=todas y categoria=todas con/sin palabra clave
-                $Sitios = $this->db->selectSitioBuscarAllSitios($Clave,$offset,$this->n_per_page);
-            }else{
-                //buscar provincia=todas y categoria=X  con/sin palabra clave
-                $Sitios = $this->db->selectSitioBuscarCategoria($Clave,$Categoria,$offset,$this->n_per_page);
-            }
+        if(( $Provincia!="TODAS")&&( $Categoria!=0)){    
+            //buscar provincia=X y categoria=X con/sin palabra clave
+            $Sitios = $this->db->selectSitioBuscar($Clave,strtolower($Provincia),$Categoria,$offset,$this->n_per_page);    
+        }elseif(( $Provincia=="TODAS")&&( $Categoria!=0)){
+                //buscar provincia=TODAS y categoria=X con/sin palabra clave
+                $Sitios = $this->db->selectSitioBuscarCategoria($Clave,$Categoria,$offset,$this->n_per_page);    
+        }elseif(( $Provincia!="TODAS")&&( $Categoria==0)){
+                //buscar provincia=X y categoria=TODAS con/sin palabra clave
+                $Sitios = $this->db->selectSitioBuscarProvincia($Clave,strtolower($Provincia),$offset,$this->n_per_page);    
         }else{
-            if( $Categoria==0){
-                //buscar provincia=X y categoria=todas con/sin palabra clave
-                $Sitios = $this->db->selectSitioBuscarProvincia($Clave,$Provincia,$offset,$this->n_per_page);
-            }else{
-                //buscar provincia=X y categoria=X  con/sin palabra clave
-                $Sitios = $this->db->selectSitioBuscar($Clave,$Provincia,$Categoria,$offset,$this->n_per_page);
-            }
+            //buscar provincia=TODAS y categoria=TODAS con/sin palabra clave       
+            $Sitios = $this->db->selectSitioBuscarAllSitios($Clave,$offset,$this->n_per_page);
         }
-        $basicSitios = json_encode($Sitios);
+      //  $basicSitios = json_encode($Sitios);
         return  $Sitios;
     }
 
 
     public function getPaginacionBuscame($Clave,$Provincia,$Categoria){
-        if( $Provincia==0){
-            if( $Categoria==0){
-                //buscar provincia=todas y categoria=todas con/sin palabra clave
-                $total_rows = $this->db->PAGselectSitioBuscarAllSitios($Clave);
-            }else{
-                //buscar provincia=todas y categoria=X  con/sin palabra clave
-                $total_rows = $this->db->PAGselectSitioBuscarCategoria($Clave,$Categoria);
-            }
+        if(( $Provincia!="TODAS")&&( $Categoria!=0)){    
+            //buscar provincia=X y categoria=X con/sin palabra clave
+            $total_rows = $this->db->PAGselectSitioBuscar($Clave,strtolower($Provincia),$Categoria);
+        }elseif(( $Provincia=="TODAS")&&( $Categoria!=0)){
+                  //buscar provincia=todas y categoria=X  con/sin palabra clave
+                  $total_rows = $this->db->PAGselectSitioBuscarCategoria($Clave,$Categoria);    
+        }elseif(( $Provincia!="TODAS")&&( $Categoria==0)){
+                //buscar provincia=X y categoria=TODAS con/sin palabra clave
+                $total_rows = $this->db->PAGselectSitioBuscarProvincia($Clave,strtolower($Provincia));    
         }else{
-            if( $Categoria==0){
-                //buscar provincia=X y categoria=todas con/sin palabra clave
-                $total_rows = $this->db->PAGselectSitioBuscarProvincia($Clave,$Provincia);
-            }else{
-                //buscar provincia=X y categoria=X  con/sin palabra clave
-                $total_rows = $this->db->PAGselectSitioBuscar($Clave,$Provincia,$Categoria);
-            }
+              //buscar provincia=todas y categoria=todas con/sin palabra clave
+              $total_rows = $this->db->PAGselectSitioBuscarAllSitios($Clave);
         }
         $total_pages = ceil( $total_rows / $this->n_per_page);
         return $total_pages;

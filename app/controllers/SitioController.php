@@ -43,10 +43,6 @@ class SitioController extends Controller{
         $datos['Imagenes'] = $this->model->getImagenesSitio($idSitio);
         $datos['Valoracion'] =  $this->model->getValoracionSitio($idSitio);
         $datos['Caract'] =  $this->model->getCaractSitio($idSitio);
-        //$datos['Comentarios'] = $this->model->getComentariosSitio($idSitio);
-        //$datos['PaginacionPlatos'] =  $this->model->getPaginacionPlatos($idSitio);
-        //$datos['PlatosPag1'] =  $this->model->getAllPlatos($idSitio,1);
-       //var_dump($datos['Caract']);
         return view('/sitios/OneSitio',compact('datos'));
     }
 
@@ -84,8 +80,7 @@ class SitioController extends Controller{
     public function index(){
         $Destacados = $this->model->getDestacados(); 
         $datos['Destacados'] = $Destacados;
-       var_dump($datos);
-      //  var_dump($Destacados);
+    
         return view('/home/index', compact('datos'));
     }
 
@@ -106,7 +101,7 @@ class SitioController extends Controller{
 
     public function cerca(){
         $ip = $this->getRealIP();
-        $ip = '190.50.95.168';
+        $ip = "190.50.95.168";
         //$ip = '108.62.211.172';
         $informacionSolicitud = file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip);
         $dataSolicitud = json_decode($informacionSolicitud);
@@ -117,7 +112,7 @@ class SitioController extends Controller{
         $datos["ciudad"]= $dataSolicitud->geoplugin_city;
         $datos["region"]= $dataSolicitud->geoplugin_region;
         $data = json_encode( $datos, JSON_FORCE_OBJECT);
-        var_dump( $data);
+     //   var_dump( $data);
         return view('/sitios/NearSitios', compact('data'));
     }
 
@@ -125,8 +120,9 @@ class SitioController extends Controller{
     public function getMarcadores(){
         $Ciudad = htmlspecialchars($_GET['Ciudad']);
         $Provincia = htmlspecialchars($_GET['Provincia']);
-        //var_dump( $this->model->getMarcadores($Ciudad,$Provincia));
-        return $this->model->getMarcadores($Ciudad,$Provincia);
+        $Datos=$this->model->getMarcadores($Ciudad,$Provincia);
+      //  $data = json_encode( $Datos, JSON_FORCE_OBJECT);
+       return  $Datos;
     }
     
 
@@ -150,9 +146,32 @@ class SitioController extends Controller{
     }
 
     public function buscador(){
-        return view('/sitios/SearchSitio');
+        if( (isset($_GET['Clave'])) ){
+            $Clave =htmlspecialchars ($_GET['clave']);
+            $Datos['clave'] = $Clave;
+        }else{
+            $Datos['clave'] = '';
+        }
+        if( (isset($_GET['provincia'])) ){
+            $Provincia =  (htmlspecialchars($_GET['provincia']));
+            $Datos['provincia'] = $Provincia;
+        }else{
+            $Datos['provincia'] = 'TODAS';
+        }
+        if((isset($_GET['categoria'])) ){
+            $Categoria =  (htmlspecialchars($_GET['categoria']));
+            $Datos['categoria'] = $Categoria;
+        }else{
+            $Datos['categoria'] = 0;
+        }
+
+        $data = json_encode( $Datos, JSON_FORCE_OBJECT);
+
+            return view('/sitios/SearchSitio', compact('data'));
+        }
+
+        
         
         
     }
-    
-}
+

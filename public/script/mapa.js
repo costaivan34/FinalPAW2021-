@@ -1,19 +1,20 @@
 
 window.addEventListener("DOMContentLoaded", function () {
   currentPosition();
+ // cargarMarcadores("navarro","buenos aires");
   
 });
 
-function agregarMarcador(longitud,latitud){
+function agregarMarcador(datosMarcador){
   // add markers to map
    // create a HTML element for each feature
    var el = document.createElement('div');
    el.className = 'marker';
    // make a marker for each feature and add to the map
    new mapboxgl.Marker(el,{'color': '#00000F'})
-   .setLngLat([longitud, latitud])
+   .setLngLat([datosMarcador.Y, datosMarcador.X])
    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-     .setHTML('<h3>' + "marker.properties.title" + '</h3><p>' + "marker.properties.description" + '</p>'))
+     .setHTML('<h3>' + datosMarcador.nombre + '</h3><a href="/resto?Sitio='  + datosMarcador.idSitio + '></a>'))
    .addTo(map);
  }
 
@@ -21,19 +22,21 @@ function cargarMarcadores(ciudad,provincia){
   var xmlHttpRequest=new XMLHttpRequest();
 	xmlHttpRequest.onreadystatechange=function() {
 		if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200) { 
-     console.log( xmlHttpRequest.responseText );
+ //    console.log( xmlHttpRequest.responseText );
       var respuesta =JSON.parse(  xmlHttpRequest.responseText );
       console.log( respuesta );
      //currentPosition(longitud,latitud);
-    /*
       for (cat of respuesta) {
-        agregarMarcador(longitud,latitud);
-      }*/
+        agregarMarcador(cat);
+       console.log(cat);
+      }
 		}else{
     //  alert("ME CAGO EN LA PUTA");
     }  
 	}
-  xmlHttpRequest.open("GET","marcadores?&Provincia="+provincia+"&Ciudad="+ciudad,true);
+ // console.log( provincia +"-------"+ciudad );
+
+  xmlHttpRequest.open("GET","marcadores?Provincia="+provincia+"&Ciudad="+ciudad,true);
 	xmlHttpRequest.send();
 	event.preventDefault();
 }
@@ -55,10 +58,10 @@ function currentPosition(){
   datos= datos.replaceAll(':', '":"');
   datos= datos.replaceAll('}', '"}');
  var respuesta =JSON.parse( datos );
- console.log(respuesta);
+ //console.log(respuesta);
  loadmapa(respuesta.longitud,respuesta.latitud);
-  // cargarMarcadores(respuesta.ciudad);
-    cargarMarcadores('Navarro','Buenos Aires');
+ cargarMarcadores(respuesta.ciudad,respuesta.region);
+ cargarMarcadores("navarro","buenos aires");
   
 }
 

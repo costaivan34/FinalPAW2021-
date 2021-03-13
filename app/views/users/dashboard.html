@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block head %}
+{{ parent() }}
+
+
+<script src="/public/script/carusel.js"></script>
+<script src="/public/script/tabs.js"></script>
+<link rel="stylesheet" href="/public/css/dashboard.css">
+{% endblock %}
+{% block title %} {% endblock %}
+{% block header %}
+ 
+{% endblock %}
+
+{% block main %}
+
+  
+  <div id="wrapper">
+    <div class="side-bar">
+      {{ include('partials/sidebar-dashboard.html') }}
+    </div>
+  
+    <div class="info">
+      <label for="Name">Nombre de Usuario</label>
+     <input id="nameUser" type="text" name="NAME" value="" placeholder="Nombre" required />
+     <br>
+     <label for="Name">Nombre</label>
+     <input id="nombreUser" type="text" name="NAME" value="" placeholder="Nombre" required />
+     <br>
+     <label for="Name">Apellido</label> 
+     <input id="apellidoUser" type="text" name="NAME" value="" placeholder="Nombre" required />
+     <br>
+     <label for="Name">Correo Electronico</label>
+     <input id="mailUser" type="text" name="NAME" value="" placeholder="Nombre" required />
+     <br>
+     <label for="Name">Ubicacion</label> 
+     <input id="paisUser" type="text" name="NAME" value="" placeholder="Nombre" required />
+     <br>
+     <label for="Name">Telefono</label> 
+     <input id="telefonoUser" type="text" name="NAME" value="" placeholder="Nombre" required />
+    </div>
+  </div>
+   
+
+{% endblock %}

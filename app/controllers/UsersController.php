@@ -34,4 +34,17 @@ class UsersController extends Controller
         $this->model->insert($user);
         return redirect('users');
     }
+
+    public function validarLogin(){
+        $user=$_POST["userName"];
+        $password=$_POST["password"];
+        $statement= $this->model->validarLogin($user, $password); 
+        if(($statement)==0){
+            return 0;
+        }else{
+            return 1;
+        }       
+    }
+
+
 }

@@ -22,10 +22,15 @@ class PagesController{
     }
 
     
-    public function contact(){
-        return view('contact');
+    public function contacto(){
+
+        return view('/home/contact');
     }
 
+    public function sendConsulta(){
+
+        return view('/home/contact');
+    }
 
 
     public function platos(){
@@ -63,6 +68,10 @@ class PagesController{
 
     public function login(){
         return view('/login/login');
+    }
+
+    public function dash(){
+        return view('/users/dashboard');
     }
 
     /**
