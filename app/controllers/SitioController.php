@@ -15,8 +15,12 @@ class SitioController extends Controller{
     }
     
    public function getAll(){
+    if (isset($_SESSION["user"])){
+        $datos["user"] = $_SESSION["user"];
+    }
     $infoBasica = $this->model->getAll();
     $datos['AllSitios'] = $infoBasica;
+
     return view('restauranteSingle',compact('datos'));
    }
    
@@ -36,6 +40,10 @@ class SitioController extends Controller{
    }
 
     public function getOne(){
+        $datos["user"] = " ";
+        if (isset($_SESSION["user"])){
+            $datos["user"] =  $_SESSION["user"];
+        }
         $idSitio = htmlspecialchars($_GET['Sitio']);
         $datos['OneSitio'] = $this->model->getOne($idSitio);
         $datos['Ubicacion'] = $this->model->getUbicacion($idSitio);
@@ -79,8 +87,11 @@ class SitioController extends Controller{
 
     public function index(){
         $Destacados = $this->model->getDestacados(); 
-        $datos['Destacados'] = $Destacados;
-    
+        $datos["Destacados"] = $Destacados;
+        $datos["user"] = " ";
+        if (isset($_SESSION["user"])){
+            $datos["user"] =  $_SESSION["user"];
+        }
         return view('/home/index', compact('datos'));
     }
 
@@ -100,20 +111,26 @@ class SitioController extends Controller{
     }
 
     public function cerca(){
+        $data["user"] = " ";
+        if (isset($_SESSION["user"])){
+            $data["user"] =  $_SESSION["user"];
+        }
         $ip = $this->getRealIP();
         $ip = "190.50.95.168";
         //$ip = '108.62.211.172';
         $informacionSolicitud = file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip);
         $dataSolicitud = json_decode($informacionSolicitud);
-        $datos["latitud"] = $dataSolicitud->geoplugin_latitude;
-        $datos["longitud"] = $dataSolicitud->geoplugin_longitude;
-        $datos["latitud"] =-35.0007752 ;
-        $datos["longitud"] =-59.276512 ;
-        $datos["ciudad"]= $dataSolicitud->geoplugin_city;
-        $datos["region"]= $dataSolicitud->geoplugin_region;
-        $data = json_encode( $datos, JSON_FORCE_OBJECT);
-     //   var_dump( $data);
-        return view('/sitios/NearSitios', compact('data'));
+        $data["latitud"] = $dataSolicitud->geoplugin_latitude;
+        $data["longitud"] = $dataSolicitud->geoplugin_longitude;
+        $data["latitud"] =-35.0007752 ;
+        $data["longitud"] =-59.276512 ;
+        $data["ciudad"]= $dataSolicitud->geoplugin_city;
+        $data["region"]= $dataSolicitud->geoplugin_region;
+        $data["user"] = " ";
+        
+        $datos = json_encode( $data, JSON_FORCE_OBJECT);
+      var_dump($datos);
+        return view('/sitios/NearSitios', compact('datos'));
     }
 
 
@@ -127,6 +144,7 @@ class SitioController extends Controller{
     
 
     public function buscar(){
+        
         if(isset($_GET['Clave'])){
             $Clave =htmlspecialchars ($_GET['Clave']);
             
@@ -146,32 +164,34 @@ class SitioController extends Controller{
     }
 
     public function buscador(){
+        if (isset($_SESSION["user"])){
+            $data["user"] =  $_SESSION["user"];
+        }else{
+            $data["user"] = " ";
+        }
         if( (isset($_GET['Clave'])) ){
             $Clave =htmlspecialchars ($_GET['clave']);
-            $Datos['clave'] = $Clave;
+            $data['clave'] = $Clave;
         }else{
-            $Datos['clave'] = '';
+            $data['clave'] = '';
         }
         if( (isset($_GET['provincia'])) ){
             $Provincia =  (htmlspecialchars($_GET['provincia']));
-            $Datos['provincia'] = $Provincia;
+            $data['provincia'] = $Provincia;
         }else{
-            $Datos['provincia'] = 'TODAS';
+            $data['provincia'] = 'TODAS';
         }
         if((isset($_GET['categoria'])) ){
             $Categoria =  (htmlspecialchars($_GET['categoria']));
-            $Datos['categoria'] = $Categoria;
+            $data['categoria'] = $Categoria;
         }else{
-            $Datos['categoria'] = 0;
+            $data['categoria'] = 0;
         }
 
-        $data = json_encode( $Datos, JSON_FORCE_OBJECT);
-
-            return view('/sitios/SearchSitio', compact('data'));
+        $datos = json_encode( $data, JSON_FORCE_OBJECT);
+var_dump($datos);
+            return view('/sitios/SearchSitio', compact('datos'));
         }
-
-        
-        
         
     }
 

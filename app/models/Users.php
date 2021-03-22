@@ -14,7 +14,7 @@ class Users extends Model
     }
 
     public function validarLogin($user, $password){
-        //$password= md5($password,false);
+        $password= md5($password,false);
         $datos = $this->db->validarLogin($user, $password);
         return $datos;
     }
@@ -23,6 +23,18 @@ class Users extends Model
         $password= md5($password,false);
         $datos = $this->db->validarLogin($this->table,$user, $password);
         return json_decode(json_encode($datos),true);
+    }
+
+    public function getDatosUsuario($user){
+        $datos = $this->db->getDatosUsuario($user);
+        //return json_encode($datos);
+       return $datos;
+    }
+
+    public function getSitiosUsuario($user){
+        $datos = $this->db->getSitiosUsuario($user);
+        //return json_decode(json_encode($datos),true);
+        return$datos;
     }
 }
 

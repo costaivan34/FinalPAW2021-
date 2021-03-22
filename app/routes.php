@@ -3,9 +3,18 @@
     $router->get('', 'SitioController@index');
     $router->get('contacto', 'PagesController@contacto');
     $router->post('sendConsulta', 'SitioController@sendConsulta');
-    $router->post('login', 'UsersController@validarLogin');
 
-    $router->get('dashboard', 'PagesController@dash');
+    $router->post('login', 'UsersController@validarLogin');
+    $router->get('dashboard/logout', 'UsersController@cerrarLogin');
+    $router->get('logout', 'UsersController@cerrarLogin');
+
+    $router->get('dashboard/account', 'UsersController@dash');
+    $router->get('dashboard/sitios', 'UsersController@dash_sitios');
+    $router->get('dashboard/password', 'UsersController@dash_password');
+    $router->get('dashboard/setting', 'PagesController@dash');
+
+
+
 
     $router->get('resto', 'SitioController@getOne');
     $router->get('resto/new', 'PagesController@newOne');

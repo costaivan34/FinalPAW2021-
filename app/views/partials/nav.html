@@ -9,10 +9,15 @@
         <li><a href="/">Inicio</a></li>
         <li><a href="/buscador">Restaurant</a></li>
         <li><a href="/cerca">Cerca de mi</a></li>
-        <li><a href="/contacto">Contacto</a></li>
-        <li><i class="fa fa-user-circle-o fa-2x loginico" aria-hidden="true" alt="" onclick="openLoginModal();"></i>
-             </li>
-
+        <li><a href="/contacto">Contacto </a></li>
+        
+      {% if  datos.user == " "  %}
+        <li><i class="fa fa-user-circle-o fa-2x loginico" aria-hidden="true" alt="" onclick="openLoginModal();"></i></li>
+      {% else %}
+      <li><a href="/dashboard/account"> {{datos.user}} </a></li>
+      <li> 
+        <input  value="LOG OUT" class="logout-button" type="button" aria-hidden="true" alt="" onclick="closeSession();"></li>
+      {% endif %}
     </ul>
     
 
@@ -39,10 +44,8 @@
         <button onclick="callLogin();" type="submit" >Login</button>
         
         <span class="psw"><a href="#">¿Has olvidado tu contraseña?</a></span>
-        
       </div>
   
-   
     </form>
   </div>
 {% endblock %}

@@ -32,6 +32,9 @@
   width:100%
 }
 
+.plates-text a{
+text-decoration: none;
+}
 
 .slideshow-places{
   padding-top: 2%;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2021 a las 00:25:44
+-- Tiempo de generación: 22-03-2021 a las 22:09:12
 -- Versión del servidor: 10.1.39-MariaDB
 -- Versión de PHP: 7.3.5
 
@@ -23,13 +23,13 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+CREATE SCHEMA foodapp;
 --
 -- Estructura de tabla para la tabla `caracteristicaplato`
 --
-
+USE foodapp;
 CREATE TABLE `caracteristicaplato` (
-  `idCaracteristica` int NOT NULL,
+  `idCaracteristica` int(11) NOT NULL,
   `nombre` varchar(30) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` varchar(60) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -77,7 +77,7 @@ INSERT INTO `caracteristicasitio` (`idCaracteristica`, `nombre`, `descripcion`) 
 --
 
 CREATE TABLE `categorias` (
-  `idCategoria` int NOT NULL,
+  `idCategoria` int(11) NOT NULL,
   `nombre` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -96,15 +96,15 @@ INSERT INTO `categorias` (`idCategoria`, `nombre`) VALUES
 --
 
 CREATE TABLE `comentariositios` (
-  `idComentario` int NOT NULL,
-  `idSitio` int NOT NULL,
+  `idComentario` int(11) NOT NULL,
+  `idSitio` int(11) NOT NULL,
   `nombre` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `mail` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `fecha` date NOT NULL,
-  `valoracionSabor` int NOT NULL,
-  `valoracionPrecio` int NOT NULL,
-  `valoracionAmbiente` int NOT NULL
+  `valoracionSabor` int(11) NOT NULL,
+  `valoracionPrecio` int(11) NOT NULL,
+  `valoracionAmbiente` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -140,11 +140,11 @@ DELIMITER ;
 --
 
 CREATE TABLE `horario` (
-  `idHorario` int NOT NULL,
-  `idSitio` int NOT NULL,
-  `idDia` int NOT NULL,
-  `HDesde` int NOT NULL,
-  `HHasta` int NOT NULL
+  `idHorario` int(11) NOT NULL,
+  `idSitio` int(11) NOT NULL,
+  `idDia` int(11) NOT NULL,
+  `HDesde` int(11) NOT NULL,
+  `HHasta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -166,8 +166,8 @@ INSERT INTO `horario` (`idHorario`, `idSitio`, `idDia`, `HDesde`, `HHasta`) VALU
 
 CREATE TABLE `imagenesplatos` (
   `idImagen` bigint(20) UNSIGNED NOT NULL,
-  `idPlato` int NOT NULL,
-  `nombre` int NOT NULL,
+  `idPlato` int(11) NOT NULL,
+  `nombre` int(11) NOT NULL,
   `path` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -188,8 +188,8 @@ INSERT INTO `imagenesplatos` (`idImagen`, `idPlato`, `nombre`, `path`) VALUES
 --
 
 CREATE TABLE `imagenessitios` (
-  `idImagen` int NOT NULL,
-  `idSitio` int NOT NULL,
+  `idImagen` int(11) NOT NULL,
+  `idSitio` int(11) NOT NULL,
   `path` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -210,7 +210,7 @@ INSERT INTO `imagenessitios` (`idImagen`, `idSitio`, `path`) VALUES
 --
 
 CREATE TABLE `infonutricional` (
-  `idInfo` int NOT NULL,
+  `idInfo` int(11) NOT NULL,
   `nombre` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -233,9 +233,9 @@ INSERT INTO `infonutricional` (`idInfo`, `nombre`) VALUES
 --
 
 CREATE TABLE `listacaractplato` (
-  `idListaCaract` int NOT NULL,
-  `idPlato` int NOT NULL,
-  `idCaract` int NOT NULL
+  `idListaCaract` int(11) NOT NULL,
+  `idPlato` int(11) NOT NULL,
+  `idCaract` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -245,8 +245,8 @@ CREATE TABLE `listacaractplato` (
 --
 
 CREATE TABLE `listacaractsitio` (
-  `idListaCaract` int NOT NULL,
-  `idSitio` int NOT NULL,
+  `idListaCaract` int(11) NOT NULL,
+  `idSitio` int(11) NOT NULL,
   `idCaract` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -269,11 +269,11 @@ INSERT INTO `listacaractsitio` (`idListaCaract`, `idSitio`, `idCaract`) VALUES
 --
 
 CREATE TABLE `platos` (
-  `idPlato` int NOT NULL,
+  `idPlato` int(11) NOT NULL,
   `nombre` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `precio` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `idSitio` int NOT NULL
+  `idSitio` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -303,7 +303,7 @@ INSERT INTO `platos` (`idPlato`, `nombre`, `descripcion`, `precio`, `idSitio`) V
 --
 
 CREATE TABLE `semanasdias` (
-  `idDia` int NOT NULL,
+  `idDia` int(11) NOT NULL,
   `nombre` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -327,16 +327,16 @@ INSERT INTO `semanasdias` (`idDia`, `nombre`) VALUES
 --
 
 CREATE TABLE `sitios` (
-  `idSitio` int NOT NULL,
+  `idSitio` int(11) NOT NULL,
   `nombre` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `telefono` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `sitioWeb` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
-  `valoracionPrecio` int NOT NULL,
-  `valoracionAmbiente` int NOT NULL,
-  `valoracionSabor` int NOT NULL,
-  `idUsuario` int NOT NULL,
-  `idCategoria` int NOT NULL
+  `valoracionPrecio` int(11) NOT NULL,
+  `valoracionAmbiente` int(11) NOT NULL,
+  `valoracionSabor` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `idCategoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -354,8 +354,8 @@ INSERT INTO `sitios` (`idSitio`, `nombre`, `descripcion`, `telefono`, `sitioWeb`
 --
 
 CREATE TABLE `ubicacion` (
-  `idUbicacion` int NOT NULL,
-  `idSitio` int NOT NULL,
+  `idUbicacion` int(11) NOT NULL,
+  `idSitio` int(11) NOT NULL,
   `direccion` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `ciudad` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `provincia` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
@@ -378,11 +378,14 @@ INSERT INTO `ubicacion` (`idUbicacion`, `idSitio`, `direccion`, `ciudad`, `provi
 --
 
 CREATE TABLE `usuarios` (
-  `idUsuario` int NOT NULL,
+  `idUsuario` int(11) NOT NULL,
   `mail` varchar(60) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `nombreUsuario` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `nombre` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `apellido` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `direccion` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
+  `pais` text NOT NULL,
+  `telefono` int(11) NOT NULL,
   `password` text CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
   `fotoPerfil` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -391,8 +394,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`idUsuario`, `mail`, `nombre`, `apellido`, `direccion`, `password`, `fotoPerfil`) VALUES
-(1, 'costaivan34@gmail.com', 'Iván', 'Costa', 'Calle 123, enmicasa', '1234', '/private/usuarios/1/perfil.jpg');
+INSERT INTO `usuarios` (`idUsuario`, `mail`, `nombreUsuario`, `nombre`, `apellido`, `direccion`, `pais`, `telefono`, `password`, `fotoPerfil`) VALUES
+(1, 'costaivan34@gmail.com', 'costaivan34', 'Iván', 'Costa', 'Calle 123, enmicasa', 'Argentina', 0, '81dc9bdb52d04dc20036dbd8313ed055', '/private/usuarios/1/perfil.jpg');
 
 -- --------------------------------------------------------
 
@@ -401,10 +404,10 @@ INSERT INTO `usuarios` (`idUsuario`, `mail`, `nombre`, `apellido`, `direccion`, 
 --
 
 CREATE TABLE `valornutricional` (
-  `idValor` int NOT NULL,
-  `idPlato` int NOT NULL,
-  `idInfo` int NOT NULL,
-  `valor` int NOT NULL
+  `idValor` int(11) NOT NULL,
+  `idPlato` int(11) NOT NULL,
+  `idInfo` int(11) NOT NULL,
+  `valor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -544,7 +547,7 @@ ALTER TABLE `valornutricional`
 -- AUTO_INCREMENT de la tabla `caracteristicaplato`
 --
 ALTER TABLE `caracteristicaplato`
-  MODIFY `idCaracteristica` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idCaracteristica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `caracteristicasitio`
@@ -556,7 +559,7 @@ ALTER TABLE `caracteristicasitio`
 -- AUTO_INCREMENT de la tabla `comentariositios`
 --
 ALTER TABLE `comentariositios`
-  MODIFY `idComentario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idComentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenesplatos`
@@ -568,43 +571,43 @@ ALTER TABLE `imagenesplatos`
 -- AUTO_INCREMENT de la tabla `infonutricional`
 --
 ALTER TABLE `infonutricional`
-  MODIFY `idInfo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idInfo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `platos`
 --
 ALTER TABLE `platos`
-  MODIFY `idPlato` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idPlato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `semanasdias`
 --
 ALTER TABLE `semanasdias`
-  MODIFY `idDia` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idDia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `sitios`
 --
 ALTER TABLE `sitios`
-  MODIFY `idSitio` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idSitio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ubicacion`
 --
 ALTER TABLE `ubicacion`
-  MODIFY `idUbicacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idUbicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `valornutricional`
 --
 ALTER TABLE `valornutricional`
-  MODIFY `idValor` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idValor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

@@ -83,10 +83,10 @@ class QueryBuilder{
     public function validarLogin($usuario ,$password){
         $statement = $this->pdo->prepare(
             "SELECT count(*) as cuenta FROM usuarios
-            WHERE mail=$usuario AND password=$password "
+            WHERE mail='$usuario' AND password='$password'"
         );
         $statement->execute();
-        return $statement;
+        return $statement->fetchColumn();
     }
 
    
@@ -364,5 +364,20 @@ public function PAGselectSitioBuscarCategoria($Clave,$Categoria){
     return $statement->fetchColumn();
 }
 
+public function getDatosUsuario($user){ 
+   
+     $statement = $this->pdo->prepare(" SELECT `idUsuario`, `mail`, `nombreUsuario`, `nombre`, `apellido`, `direccion`, `pais`, `telefono`, `fotoPerfil` FROM `usuarios` WHERE mail='$user' " );
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_CLASS);
+}
 
+
+public function getSitiosUsuario($user){ 
+   
+    $statement = $this->pdo->prepare(" SELECT s.idSitio, s.nombre
+     FROM usuarios u INNER JOIN sitios s on s.idUsuario= u.idUsuario 
+     WHERE u.nombreUsuario='$user' " );
+   $statement->execute();
+   return $statement->fetchAll(PDO::FETCH_CLASS);
+}
 }

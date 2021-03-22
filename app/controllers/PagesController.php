@@ -23,8 +23,12 @@ class PagesController{
 
     
     public function contacto(){
-
-        return view('/home/contact');
+        session_start();
+        $datos["user"] = " ";
+        if (isset($_SESSION["user"])){
+            $datos["user"] =  $_SESSION["user"];
+        }
+        return view('/home/contact', compact('datos'));
     }
 
     public function sendConsulta(){
@@ -70,9 +74,8 @@ class PagesController{
         return view('/login/login');
     }
 
-    public function dash(){
-        return view('/users/dashboard');
-    }
+    
+
 
     /**
      * Show the Error 404 page.
