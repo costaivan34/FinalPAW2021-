@@ -371,6 +371,13 @@ public function getDatosUsuario($user){
     return $statement->fetchAll(PDO::FETCH_CLASS);
 }
 
+public function getUsuario($user){ 
+   
+    $statement = $this->pdo->prepare(" SELECT `idUsuario`, `mail`, `nombreUsuario`, `nombre`, `apellido`, `direccion`, `pais`, `telefono`, `fotoPerfil` FROM `usuarios` WHERE nombreUsuario='$user' " );
+   $statement->execute();
+   return $statement->fetchAll(PDO::FETCH_CLASS);
+}
+
 
 public function getSitiosUsuario($user){ 
    

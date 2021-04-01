@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/public/css/index.css">
     <link rel="stylesheet" href="/public/css/search-bar.css">
     <link rel="stylesheet" href="/public/css/resultados.css">
+    <link rel="stylesheet" href="/public/css/platoSingle.css">
     <script src="/public/script/carusel.js"></script>
    
 {% endblock %}
@@ -53,23 +54,20 @@
 <div class="slideshow-places">
   <h3> Restaurantes Destacados</h3>
   <div class="fila">
-
-    {% for a in datos.Destacados %}
     <div class="columna">
+    {% for a in datos.Destacados %}
       <div class="tarjeta">
-        <div>
-          <img src="{{ a.path }}" alt="Denim Jeans">
-        </div>
         <div class="plates-text" >
+          <img src="{{ a.path }}" alt="Denim Jeans">
           <br>
           <a href="/resto?Sitio={{ a.idSitio }}"><h3>{{ a.nombre }}</h3></a>
           <p><i class=" fa fa-map-marker  "></i> {{ a.ciudad }},{{ a.provincia }}</p>
           <p><i class=" fa fa-commenting  "></i> {{ a.Ncomentarios }}</p>
         </div>
       </div>
-    </div>
+    
     {% endfor %}
-
+  </div>
   </div>
   
 </div>

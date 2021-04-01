@@ -116,14 +116,12 @@ text-decoration-color: black;
    text-align: left;
    margin-top: 50.80%;
  */
-   
    float: left;
-  
    width: 25%;
    margin-right: -25%;
    position: relative;
    left: 2%;
-   margin-bottom: 2%;
+   margin-bottom: 5%;
  }
  
  .side-bar ul{

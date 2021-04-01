@@ -24,9 +24,11 @@ class PagesController{
     
     public function contacto(){
         session_start();
-        $datos["user"] = " ";
+        
         if (isset($_SESSION["user"])){
             $datos["user"] =  $_SESSION["user"];
+        }else{
+            $datos["user"] = " ";
         }
         return view('/home/contact', compact('datos'));
     }
@@ -36,7 +38,7 @@ class PagesController{
         return view('/home/contact');
     }
 
-
+/*
     public function platos(){
         return view('buscaPlato');
     }
@@ -56,7 +58,7 @@ class PagesController{
 
     public function buscar(){
         return view('/sitios/SearchSitio');
-    }
+    }*/
 
     public function newOne(){
             //funcion busqueda 
@@ -64,7 +66,7 @@ class PagesController{
       
     }
     
-    public function cerca(){
+   /* public function cerca(){
         //funcion busqueda 
         return view('/sitios/NearSitios');
   
@@ -73,6 +75,7 @@ class PagesController{
     public function login(){
         return view('/login/login');
     }
+    */
 
     
 
@@ -81,14 +84,26 @@ class PagesController{
      * Show the Error 404 page.
      */
     public function notFound(){
-        return view('/errors/not-found');
+        session_start();
+        if (isset($_SESSION["user"])){
+            $datos["user"] = $_SESSION["user"];
+        }else{
+            $datos["user"] = " " ;
+        }
+        return view('/errors/not-found', compact('datos'));
     }
 
     /**
      * Show the Error 500 page
      */
     public function internalError(){
-        return view('/errors/internal-error');
+        session_start();
+        if (isset($_SESSION["user"])){
+            $datos["user"] = $_SESSION["user"];
+        }else{
+            $datos["user"] = " " ;
+        }
+        return view('/errors/internal-error', compact('datos'));
     }
 }
 

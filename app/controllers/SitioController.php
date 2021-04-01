@@ -10,11 +10,13 @@ class SitioController extends Controller{
     protected $idSitio;
 
     public function __construct(){
+      
         $this->model = new Sitio();
-        session_start();
     }
     
    public function getAll(){
+    session_start();
+    $datos["user"] = " ";
     if (isset($_SESSION["user"])){
         $datos["user"] = $_SESSION["user"];
     }
@@ -40,6 +42,7 @@ class SitioController extends Controller{
    }
 
     public function getOne(){
+        session_start();
         $datos["user"] = " ";
         if (isset($_SESSION["user"])){
             $datos["user"] =  $_SESSION["user"];
@@ -86,12 +89,14 @@ class SitioController extends Controller{
 
 
     public function index(){
+        session_start();
         $Destacados = $this->model->getDestacados(); 
         $datos["Destacados"] = $Destacados;
         $datos["user"] = " ";
         if (isset($_SESSION["user"])){
             $datos["user"] =  $_SESSION["user"];
         }
+       // var_dump($datos);
         return view('/home/index', compact('datos'));
     }
 
@@ -111,25 +116,26 @@ class SitioController extends Controller{
     }
 
     public function cerca(){
-        $data["user"] = " ";
-        if (isset($_SESSION["user"])){
-            $data["user"] =  $_SESSION["user"];
-        }
+        session_start();
         $ip = $this->getRealIP();
         $ip = "190.50.95.168";
         //$ip = '108.62.211.172';
         $informacionSolicitud = file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip);
         $dataSolicitud = json_decode($informacionSolicitud);
-        $data["latitud"] = $dataSolicitud->geoplugin_latitude;
-        $data["longitud"] = $dataSolicitud->geoplugin_longitude;
-        $data["latitud"] =-35.0007752 ;
-        $data["longitud"] =-59.276512 ;
-        $data["ciudad"]= $dataSolicitud->geoplugin_city;
-        $data["region"]= $dataSolicitud->geoplugin_region;
-        $data["user"] = " ";
-        
-        $datos = json_encode( $data, JSON_FORCE_OBJECT);
-      var_dump($datos);
+        $datos["latitud"] = $dataSolicitud->geoplugin_latitude;
+        $datos["longitud"] = $dataSolicitud->geoplugin_longitude;
+        $datos["latitud"] =-35.0007752 ;
+        $datos["longitud"] =-59.276512 ;
+        $datos["ciudad"]= $dataSolicitud->geoplugin_city;
+        $datos["region"]= $dataSolicitud->geoplugin_region;
+       
+        if (isset($_SESSION["user"])){
+            $datos["user"] = $_SESSION["user"];
+        }else{
+            $datos["user"] = " " ;
+        }
+        //$datos = json_encode( $datos, JSON_FORCE_OBJECT);
+      //var_dump($datos);
         return view('/sitios/NearSitios', compact('datos'));
     }
 
@@ -144,10 +150,8 @@ class SitioController extends Controller{
     
 
     public function buscar(){
-        
         if(isset($_GET['Clave'])){
-            $Clave =htmlspecialchars ($_GET['Clave']);
-            
+            $Clave =htmlspecialchars ($_GET['Clave']);    
         }else{
             $Clave=" ";
         }
@@ -164,34 +168,37 @@ class SitioController extends Controller{
     }
 
     public function buscador(){
+        session_start();
         if (isset($_SESSION["user"])){
-            $data["user"] =  $_SESSION["user"];
+            $datos["user"] =  $_SESSION["user"];
         }else{
-            $data["user"] = " ";
+            $datos["user"] = " ";
         }
         if( (isset($_GET['Clave'])) ){
             $Clave =htmlspecialchars ($_GET['clave']);
-            $data['clave'] = $Clave;
+            $datos['clave'] = $Clave;
         }else{
-            $data['clave'] = '';
+            $datos['clave'] = '';
         }
         if( (isset($_GET['provincia'])) ){
             $Provincia =  (htmlspecialchars($_GET['provincia']));
-            $data['provincia'] = $Provincia;
+            $datos['provincia'] = $Provincia;
         }else{
-            $data['provincia'] = 'TODAS';
+            $datos['provincia'] = 'TODAS';
         }
         if((isset($_GET['categoria'])) ){
             $Categoria =  (htmlspecialchars($_GET['categoria']));
-            $data['categoria'] = $Categoria;
+            $datos['categoria'] = $Categoria;
         }else{
-            $data['categoria'] = 0;
+            $datos['categoria'] = 0;
         }
-
-        $datos = json_encode( $data, JSON_FORCE_OBJECT);
-var_dump($datos);
-            return view('/sitios/SearchSitio', compact('datos'));
-        }
-        
+      // $datos = json_encode( $datos, JSON_FORCE_OBJECT);
+      // $datos = json_encode( $datos);
+      //   var_dump($datos);
+        return view('/sitios/SearchSitio', compact('datos'));
     }
+        
+}
+
+
 

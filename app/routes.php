@@ -13,9 +13,9 @@
     $router->get('dashboard/password', 'UsersController@dash_password');
     $router->get('dashboard/setting', 'PagesController@dash');
 
+    $router->get('actualizarPerfil', 'UsersController@dash');
 
-
-
+    
     $router->get('resto', 'SitioController@getOne');
     $router->get('resto/new', 'PagesController@newOne');
     $router->get('platos', 'SitioController@getPlatos');

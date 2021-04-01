@@ -14,12 +14,17 @@
 {% block header %}
     
 {% endblock %}
-
+{% block nav %}
+  {{ include('partials/nav.html') }}
+  {% endblock %}
 {% block main %}
 <article>
 <section id="search">
        <script>
-            var datos  = '{{datos}}';
+        
+            var clave = "{{datos.clave}}";
+            var  categoria = "{{datos.categoria}}";
+            var provincia = "{{datos.provincia}}"; 
           </script>
   <script src="/public/script/busqueda.js"></script>
 <form class="barra-busqueda" action="" method="GET">  

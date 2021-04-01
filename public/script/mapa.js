@@ -1,5 +1,6 @@
 
 window.addEventListener("DOMContentLoaded", function () {
+
   currentPosition();
  // cargarMarcadores("navarro","buenos aires");
   
@@ -52,15 +53,18 @@ function loadmapa(longitud,latitud) {
 }
 
 function currentPosition(){
+/*  console.log(datos);
   datos= datos.replaceAll('&quot;', '');
   datos= datos.replaceAll('{', '{"');
   datos= datos.replaceAll(',', '","');
   datos= datos.replaceAll(':', '":"');
   datos= datos.replaceAll('}', '"}');
- var respuesta =JSON.parse( datos );
+ var respuesta =JSON.parse( datos );*/
+ //var elemento  = document.getElementById("nombreUsuario");
+  // elemento.text=respuesta.user;
  //console.log(respuesta);
- loadmapa(respuesta.longitud,respuesta.latitud);
- cargarMarcadores(respuesta.ciudad,respuesta.region);
+ loadmapa(longitud,latitud);
+ cargarMarcadores(ciudad,region);
  cargarMarcadores("navarro","buenos aires");
   
 }

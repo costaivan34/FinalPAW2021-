@@ -2,14 +2,20 @@
 window.addEventListener("DOMContentLoaded", function () {
   getProvincias();
   getCategorias();
+  /*console.log(clave);
+  console.log(categoria);
+  console.log(provincia);
   datos= datos.replaceAll('&quot;', '');
   datos= datos.replaceAll('{', '{"');
   datos= datos.replaceAll(',', '","');
   datos= datos.replaceAll(':', '":"');
-  datos= datos.replaceAll('}', '"}');
- var respuesta =JSON.parse( datos );
- console.log(respuesta);
-  buscadorBuscame(respuesta.clave,respuesta.categoria,respuesta.provincia,1);
+  datos= datos.replaceAll('}', '"}');*/
+ //var respuesta =JSON.parse( datos );
+ //console.log(respuesta);
+ //var elemento  = document.getElementById("nombreUsuario");
+ //elemento.text=respuesta.user;
+  //buscadorBuscame(respuesta.clave,respuesta.categoria,respuesta.provincia,1);
+  buscadorBuscame(clave,categoria,provincia,1);
 });
 
 function getDatos(){

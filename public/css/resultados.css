@@ -1,14 +1,16 @@
 /* Float four columns side by side */
 .columna {
-  
-  width: 22%;
+  float: left;
+  width: 100%;
   padding: 0 10px;
-  margin-bottom: 2%;
+  
 }
 
 /* Remove extra left and right margins, due to padding in columns */
 .fila {margin: 0 -5px;
- }
+  width: 100%;
+  display: contents;
+}
 
 /* Clear floats after the columns */
 .fila:after {
@@ -20,16 +22,37 @@
 
 /* Style the counter cards */
 .tarjeta {
-  
-  margin-right: 4%;
   box-shadow: 0 4px 8px 0 rgba(245, 146, 135, 0.8); /* this adds the "card" effect */
-  padding: 20px;
+  padding: 4px;
   text-align: center;
   background-color: #f1f1f1 ;
-  box-sizing: border-box;
+  width: 22%;
+  margin: 2%;
+  margin-right: 0%;
+  border-top-left-radius: 5%;
+  border-top-right-radius: 5%;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
+
 }
+
 .tarjeta img{
-  width:100%
+    background-size: cover;
+    max-width: 100%;
+    max-height: 200px;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+    padding-bottom: 4%;
+}
+
+.plates-text{
+  border-top-left-radius: 5%;
+  border-top-right-radius: 5%;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
+  padding-bottom: 4%;
+ 
+  background-color: #E7CF7F;
 }
 
 .plates-text a{
@@ -45,7 +68,7 @@ text-decoration: none;
   margin-top: 5%;
   border: 2px solid #E7CF7F;
   width: 81%;
- 
+  
   }
   
   .slideshow-places h3{

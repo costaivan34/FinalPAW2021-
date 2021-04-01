@@ -18,17 +18,16 @@
   <div id="wrapper">
     <div class="side-bar">
       <section class="encabezado">
-        <!-- Full-width images with number and caption text -->
         <div class="user-Profile">
           <img class="User-Img" src="/public/res/user.png" >
           <div class="User-Alias"><h3>{{datos.data[0].nombreUsuario}}</h3></div>
           <div class="User-LastName"><h4>{{datos.data[0].nombre}} {{datos.data[0].apellido}}</h4></div>
-          <div class="User-Email"><h5>{{datos.user}}</h5></div>
+          <div class="User-Email"><h5>{{datos.data[0].mail}}</h5></div>
         </div>
       </section>
       
         <section class="opciones">
-           <a href="/dashboard/setting" class="settings-menu-link active" title="Configuración">    
+           <a  class="settings-menu-link active" title="Configuración">    
             <div class="icon-font-component settings-icon">
               <span class="fa fa-2x fa-cog"></span>
               <span class="settings-link-name">Configuración</span>
@@ -60,25 +59,25 @@
     </div>
  
     <div class="info">
-      <form method="post" action="sendComentario" class="deja-comentario">
-      <label for="Name">Nombre de Usuario</label>
-     <input id="nameUser" type="text" name="NAME" value="{{datos.data[0].nombreUsuario}}" placeholder="Nombre" required />
+      <form method="post" action="actualizarPerfil" class="deja-comentario">
+      <label for="nameUser">Nombre de Usuario</label>
+     <input id="nameUser" type="text" name="nameUser" value="{{datos.data[0].nombreUsuario}}" placeholder="Nombre" required />
      <br>
-     <label for="Name">Nombre</label>
-     <input id="nombreUser" type="text" name="NAME" value="{{datos.data[0].nombre}}" placeholder="Nombre" required />
+     <label for="nombreUser">Nombre</label>
+     <input id="nombreUser" type="text" name="nombreUser" value="{{datos.data[0].nombre}}" placeholder="Nombre" required />
      <br>
-     <label for="Name">Apellido</label> 
-     <input id="apellidoUser" type="text" name="NAME" value="{{datos.data[0].apellido}}" placeholder="Nombre" required />
+     <label for="apellidoUser">Apellido</label> 
+     <input id="apellidoUser" type="text" name="apellidoUser" value="{{datos.data[0].apellido}}" placeholder="Nombre" required />
      <br>
-     <label for="Name">Correo Electronico</label>
-     <input id="mailUser" type="text" name="NAME" value="{{datos.user}}" placeholder="Nombre" disabled/>
+     <label for="mailUser">Correo Electronico</label>
+     <input id="mailUser" type="text" name="mailUser" value="{{datos.data[0].mail}}" placeholder="Nombre" disabled/>
      <br>
-     <label for="Name">Ubicacion</label> 
-     <input id="paisUser" type="text" name="NAME" value="{{datos.data[0].pais}}" placeholder="Nombre" required />
+     <label for="paisUser">Ubicacion</label> 
+     <input id="paisUser" type="text" name="paisUser" value="{{datos.data[0].pais}}" placeholder="Nombre" required />
      <br>
-     <label for="Name">Telefono</label> 
-     <input id="telefonoUser" type="text" name="NAME" value="{{datos.data[0].telefono}}" placeholder="Nombre" required />
-     <input type="submit" value="Guardar" name="Enviar" onclick="guardarComentario()" />
+     <label for="telefonoUser">Telefono</label> 
+     <input id="telefonoUser" type="text" name="telefonoUser" value="{{datos.data[0].telefono}}" placeholder="Nombre" required />
+     <input type="submit" value="Guardar" name="Enviar"  />
     </form>
     </div>
   </div>

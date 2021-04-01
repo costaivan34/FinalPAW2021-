@@ -13,16 +13,21 @@ class Users extends Model
         $this->db->insert($this->table, $user);
     }
 
+    public function updateUsuario(){
+        
+    }
+
     public function validarLogin($user, $password){
         $password= md5($password,false);
         $datos = $this->db->validarLogin($user, $password);
         return $datos;
     }
 
-    public function getUsuario($user, $password){
-        $password= md5($password,false);
-        $datos = $this->db->validarLogin($this->table,$user, $password);
-        return json_decode(json_encode($datos),true);
+    public function getUsuario($user){
+        $datos = $this->db->getUsuario($user);
+        //$datos = (json_encode($datos,true)); 
+        $tdatos= json_decode(json_encode($datos), True);
+       return $datos;
     }
 
     public function getDatosUsuario($user){

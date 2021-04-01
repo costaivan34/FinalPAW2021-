@@ -14,9 +14,9 @@
       {% if  datos.user == " "  %}
         <li><i class="fa fa-user-circle-o fa-2x loginico" aria-hidden="true" alt="" onclick="openLoginModal();"></i></li>
       {% else %}
-      <li><a href="/dashboard/account"> {{datos.user}} </a></li>
-      <li> 
-        <input  value="LOG OUT" class="logout-button" type="button" aria-hidden="true" alt="" onclick="closeSession();"></li>
+      <li><a id="nombreUsuario" href="/dashboard/account"> {{datos.user}} </a>
+        <input  value="LOG OUT" class="logout-button" type="button" aria-hidden="true" alt="" onclick="closeSession();">
+      </li>
       {% endif %}
     </ul>
     
@@ -38,7 +38,6 @@
        
         <input class="caja-login" type="password" placeholder="&#xf084;Contraseña" name="password" id="password" required>
         <label>
-           
             <input type="checkbox" checked="checked" name="remember">Recordar mi usuario
           </label>
         <button onclick="callLogin();" type="submit" >Login</button>

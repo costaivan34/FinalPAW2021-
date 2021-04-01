@@ -1,3 +1,9 @@
+window.addEventListener("DOMContentLoaded", function () {
+
+	cargarUsuario();
+ // cargarMarcadores("navarro","buenos aires");
+	
+});
 
 function openLoginModal() {
   document.getElementById('id01').style.display='block';
@@ -55,4 +61,9 @@ function closeSession(){
 xmlHttpRequest.open("GET","logout",true);
 	xmlHttpRequest.send();
 	event.preventDefault();
+	}
+
+
+function cargarUsuario(){
+	//SeccionTitulo.innerHTML =  SeccionTitulo.innerHTML +'<li><a id="nombreUsuario" href="/dashboard/account"> {{datos[longitud]}} </a></li>';
 	}

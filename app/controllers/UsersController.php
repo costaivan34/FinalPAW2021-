@@ -9,6 +9,7 @@ use App\Models\Users;
 class UsersController extends Controller{
 
     public function __construct(){
+        
         $this->model = new Users();
       
     }
@@ -48,6 +49,17 @@ class UsersController extends Controller{
         }       
     }
 
+    public function actualizarPerfil(){
+        var_dump($_POST["nameUser"]);
+        $_POST["nombreUser"];
+        $_POST["apellidoUser"];
+        $_POST["mailUser"];
+        $_POST["paisUser"];
+        $_POST["nameUser"];
+        $_POST["telefonoUser"];
+        $datos= $this->model->getUsuario($_SESSION["user"]);
+
+    }
 
     public function cerrarLogin(){
         session_start();
@@ -58,18 +70,17 @@ class UsersController extends Controller{
     }
 
     public function cargarSitios(){
-        $datos= $this->model->validarLogin($_SESSION["user"]); 
-
+        $datos= $this->model->getUsuario($_SESSION["user"]); 
         return view('/sitios/NearSitios', compact('data'));
     }
 
     public function dash(){
         session_start();
-        $datos["user"] ="";
-        if (isset($_SESSION["user"])){
-            $datos["user"] = $_SESSION["user"];
-            $datos["data"]= $this->model->getDatosUsuario($_SESSION["user"]); 
-           // var_dump($datos);
+        $datos['user'] =" ";
+        if (isset($_SESSION['user'])){
+            $datos['user'] = $_SESSION['user'];
+            $datos['data']= $this->model->getUsuario($_SESSION['user']); 
+          //  var_dump($datos);
             return view('/users/dashboard', compact('datos'));
         }else{
             header("Location: /");
@@ -78,14 +89,15 @@ class UsersController extends Controller{
         
     }
 
+
     public function dash_sitios(){
         session_start();
-        $datos["user"] ="";
+        $datos["user"] =" ";
         if (isset($_SESSION["user"])){
             $datos["user"] =  $_SESSION["user"];
-            $datos["data"]= $this->model->getDatosUsuario($_SESSION["user"]);
+            //$datos["data"]= $this->model->getUsuario($_SESSION["user"]);
+            $datos["data"]= $this->model->getUsuario($_SESSION["user"]);
             $datos["sitios"]= $this->model->getSitiosUsuario($_SESSION["user"]);
-            
             return view('/users/dashboard-sitios', compact('datos'));
         }else{
             header("Location: /");
@@ -95,10 +107,10 @@ class UsersController extends Controller{
 
     public function dash_password(){
         session_start();
-        $datos["user"] ="";
+        $datos["user"] =" ";
         if (isset($_SESSION["user"])){
             $datos["user"] =  $_SESSION["user"];
-            $datos["data"]= $this->model->getDatosUsuario($_SESSION["user"]);
+            $datos["data"]= $this->model->getUsuario($_SESSION["user"]);
             return view('/users/dashboard-password', compact('datos'));
         }else{
             header("Location: /");
